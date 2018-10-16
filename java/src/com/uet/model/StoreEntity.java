@@ -13,6 +13,6 @@ public class StoreEntity {
 
   @Override
   public String toString(){
-    return name + "-" + code + "-" + person + "-" + createdAt + "-" + type + "-" + quantity + "-" + price + "-" + total + "-" + note;
+    return name + "-" + code + "-" + person + "-" + createdAt + "-" + type + "-" + quantity + "-" + price + "-" + total;
   }
 }

@@ -20,6 +20,7 @@ public class StoreService {
       for(StoreEntity storeEntity: storeEntities){
         data.add(storeEntity.toString());
       }
+      fileUtil.writeData(data);
     } catch (Exception e){}
   }
 
@@ -32,10 +33,12 @@ public class StoreService {
       storeEntity.name = arr[0];
       storeEntity.code = arr[1];
       storeEntity.person = arr[2];
-      storeEntity.quantity = Integer.parseInt(arr[3]);
-      storeEntity.price = Integer.parseInt(arr[4]);
-      storeEntity.total = Integer.parseInt(arr[5]);
-      storeEntity.note = arr[6];
+      storeEntity.createdAt = arr[3];
+      storeEntity.type = arr[4];
+      storeEntity.quantity = Integer.parseInt(arr[5]);
+      storeEntity.price = Integer.parseInt(arr[6]);
+      storeEntity.total = Integer.parseInt(arr[7]);
+      storeEntity.note = "";
 
       storeEntities.add(storeEntity);
     }
@@ -50,16 +53,18 @@ public class StoreService {
       storeEntities = convertData();
     } catch (Exception e){}
 
-    Object[][] storeObj = new Object[storeEntities.size()][7];
+    Object[][] storeObj = new Object[storeEntities.size()][9];
     for(int i = 0; i < storeEntities.size(); i++){
       storeObj[i][0] = i + 1;
       storeObj[i][1] = storeEntities.get(i).name;
       storeObj[i][2] = storeEntities.get(i).code;
       storeObj[i][3] = storeEntities.get(i).person;
-      storeObj[i][4] = storeEntities.get(i).quantity;
-      storeObj[i][5] = storeEntities.get(i).price;
-      storeObj[i][6] = storeEntities.get(i).total;
-      storeObj[i][7] = storeEntities.get(i).note;
+      storeObj[i][4] = storeEntities.get(i).createdAt;
+      storeObj[i][5] = storeEntities.get(i).type;
+      storeObj[i][6] = storeEntities.get(i).quantity;
+      storeObj[i][7] = storeEntities.get(i).price;
+      storeObj[i][8] = storeEntities.get(i).total;
+
     }
 
     return storeObj;

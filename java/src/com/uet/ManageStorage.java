@@ -119,14 +119,20 @@ public class ManageStorage extends JFrame {
                         "STT", "Tên", "Mã hàng", "Nhà cung cấp", "Ngày nhập", "Đơn vị", "Số lượng", "Đơn giá", "Tổng tiền"
                 }
         ){
+            Class[] types = new Class [] {
+                    Integer.class, String.class, String.class, String.class, String.class, String.class, Integer.class, Integer.class,Integer.class,Integer.class
+            };
+
             boolean[] canEdit = new boolean [] {
-                    false, false, false, false, false, false, false
+                    false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+
+        importTable.setRowSelectionAllowed(true);
     }
 
     /**
@@ -497,17 +503,45 @@ public class ManageStorage extends JFrame {
         providerStorageLabel.setText("Nhà cung cấp");
 
         storeBtn.setText("Thêm");
+        storeBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addStorageBtnActionPerformed(-1, evt);
+            }
+
+        });
 
         editStorageBtn.setText("Sửa");
         editStorageBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editStorageBtnActionPerformed(evt);
+                addStorageBtnActionPerformed(selectedItem, evt);
             }
         });
 
         deleteItemStorageBtn.setText("Xoá");
+        deleteItemStorageBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                importStorages.remove(selectedItem - 1);
+                storeService.save(importStorages);
+                importStorageObj = storeService.generateStoreObject();
+                renderImportTable();
+            }
+        });
 
         renderImportTable();
+        importTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+            public void valueChanged(ListSelectionEvent event) {
+                try{
+                    selectedItem = Integer.parseInt(importTable.getValueAt(importTable.getSelectedRow(), 0).toString());
+                    itemListStorage.setSelectedItem(importTable.getValueAt(importTable.getSelectedRow(), 1).toString());
+                    codeListStorage.setSelectedItem(importTable.getValueAt(importTable.getSelectedRow(), 2).toString());
+                    providerList.setSelectedItem(importTable.getValueAt(importTable.getSelectedRow(), 3).toString());
+                    quantityInputStorage.setText(importTable.getValueAt(importTable.getSelectedRow(), 6).toString());
+                } catch (Exception e){
+                    selectedItem = -1;
+                }
+            }
+        });
+
         importContainer.setViewportView(importTable);
 
         GroupLayout storageMenuLayout = new GroupLayout(storageMenu);
@@ -1152,8 +1186,53 @@ public class ManageStorage extends JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_quantityInputStorageActionPerformed
 
-    private void editStorageBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editStorageBtnActionPerformed
-        // TODO add your handling code here:
+    private int selectedItem = -1;
+    private void addStorageBtnActionPerformed(int selectedImport, java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editStorageBtnActionPerformed
+        if (quantityInputStorage.getText() == null || quantityInputStorage.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Bạn không được để trống số lượng hàng hoá");
+        } else {
+            StoreEntity storeEntity = new StoreEntity();
+            storeEntity.name = itemListStorage.getSelectedItem().toString();
+            storeEntity.code = codeListStorage.getSelectedItem().toString();
+            storeEntity.quantity = Integer.parseInt(quantityInputStorage.getText());
+            storeEntity.person = providerList.getSelectedItem().toString();
+            storeEntity.createdAt = new SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().getTime());
+            storeEntity.type = "Cái"; // toDo:
+            storeEntity.price = 1000;
+            storeEntity.total = storeEntity.quantity * storeEntity.price;
+            storeEntity.note = "";
+
+            Object[] o = new Object[9];
+            o[0] = importStorages.size() + 1;
+            o[1] = storeEntity.name;
+            o[2] = storeEntity.code;
+            o[3] = storeEntity.person;
+            o[4] = storeEntity.createdAt;
+            o[5] = storeEntity.type;
+            o[6] = storeEntity.quantity;
+            o[7] = storeEntity.price;
+            o[8] = storeEntity.total;
+
+            if (selectedItem == -1){
+                importStorages.add(storeEntity);
+                ((DefaultTableModel)importTable.getModel()).addRow(o);
+            } else {
+                importStorages.set(selectedItem-1, storeEntity);
+
+                importTable.setValueAt(selectedItem, selectedItem - 1, 0);
+                importTable.setValueAt(storeEntity.name, selectedItem - 1, 1);
+                importTable.setValueAt(storeEntity.code, selectedItem - 1, 2);
+                importTable.setValueAt(storeEntity.person, selectedItem - 1, 3);
+                importTable.setValueAt(storeEntity.createdAt, selectedItem - 1, 4);
+                importTable.setValueAt(storeEntity.type, selectedItem - 1, 5);
+                importTable.setValueAt(storeEntity.quantity, selectedItem - 1, 6);
+                importTable.setValueAt(storeEntity.price, selectedItem - 1, 7);
+                importTable.setValueAt(storeEntity.total, selectedItem - 1, 8);
+            }
+
+            storeService.save(importStorages);
+
+        }
     }//GEN-LAST:event_editStorageBtnActionPerformed
 
     private void itemBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemBtnActionPerformed
