@@ -6,7 +6,9 @@
 package com.uet;
 
 import com.uet.model.PersonEntity;
+import com.uet.model.StoreEntity;
 import com.uet.service.PersonService;
+import com.uet.service.StoreService;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -36,9 +38,14 @@ public class ManageStorage extends JFrame {
             providerService = new PersonService("provider.txt");
             providerObj = providerService.generateProviderObject();
             providers = providerService.convertData();
+
             customerService = new PersonService("customer.txt");
             customers = customerService.convertData();
             customerObj = customerService.generateProviderObject();
+
+            storeService = new StoreService("import.txt");
+            importStorages = storeService.convertData();
+            importStorageObj = storeService.generateStoreObject();
         } catch (Exception e){
             System.out.println("Error");
         }
@@ -98,6 +105,23 @@ public class ManageStorage extends JFrame {
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+    }
+
+    private void renderImportTable(){
+        importTable.setModel(new DefaultTableModel(
+                importStorageObj,
+                new String [] {
+                        "STT", "Tên", "Mã hàng", "Nhà cung cấp", "Ngày nhập", "Đơn vị", "Số lượng", "Đơn giá", "Tổng tiền"
+                }
+        ){
+            boolean[] canEdit = new boolean [] {
+                    false, false, false, false, false, false, false
+            };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -483,17 +507,7 @@ public class ManageStorage extends JFrame {
 
         deleteItemStorageBtn.setText("Xoá");
 
-        importTable.setModel(new DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        renderImportTable();
         importContainer.setViewportView(importTable);
 
         GroupLayout storageMenuLayout = new GroupLayout(storageMenu);
@@ -1320,5 +1334,8 @@ public class ManageStorage extends JFrame {
     private Object[][] providerObj;
     private List<PersonEntity> customers;
     private PersonService customerService;
+    private StoreService storeService;
+    private List<StoreEntity> importStorages;
+    private Object[][] importStorageObj;
     // End of variables declaration//GEN-END:variables
 }
