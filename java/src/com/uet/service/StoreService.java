@@ -38,7 +38,13 @@ public class StoreService {
       storeEntity.quantity = Integer.parseInt(arr[5]);
       storeEntity.price = Integer.parseInt(arr[6]);
       storeEntity.total = Integer.parseInt(arr[7]);
-      storeEntity.note = "";
+
+      try{
+        storeEntity.note = arr[7];
+      } catch (Exception e){
+        storeEntity.note = "";
+      }
+
 
       storeEntities.add(storeEntity);
     }

@@ -38,7 +38,14 @@ public class ItemService {
             itemEntity.quantity = Integer.parseInt(arr[4]);
             itemEntity.priceImport = Integer.parseInt(arr[5]);
             itemEntity.priceExport = Integer.parseInt(arr[6]);
-            itemEntity.note = arr[7];
+
+            try {
+              itemEntity.note = arr[7];
+            } catch (Exception e){
+              itemEntity.note = "";
+            }
+
+            itemEntity.note = arr[7] != null ? arr[7]:"";
 
             itemEntities.add(itemEntity);
         }

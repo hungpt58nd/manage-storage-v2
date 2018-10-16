@@ -46,7 +46,13 @@ public class PersonService {
             personEntity.phone = arr[2];
             personEntity.createdAt = arr[3];
             personEntity.total = Integer.parseInt(arr[4]);
-            personEntity.note = arr[5];
+
+            try{
+                personEntity.note = arr[5];
+            } catch (Exception e){
+                personEntity.note = "";
+            }
+
 
             personEntities.add(personEntity);
         }
