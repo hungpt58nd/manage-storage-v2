@@ -15,8 +15,10 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -46,6 +48,13 @@ public class ManageStorage extends JFrame {
             storeService = new StoreService("import.txt");
             importStorages = storeService.convertData();
             importStorageObj = storeService.generateStoreObject();
+
+            exportService = new StoreService("export.txt");
+            exportStorages = exportService.convertData();
+            exportStorageObj = exportService.generateStoreObject();
+
+            staticsObj = new Object[1][5];
+
         } catch (Exception e){
             System.out.println("Error");
         }
@@ -138,6 +147,59 @@ public class ManageStorage extends JFrame {
             providerList.addItem(providers.get(i).name);
         }
         providerList.setSelectedIndex(0);
+    }
+
+    private void renderExportTable(){
+        exportTable.setModel(new DefaultTableModel(
+                exportStorageObj,
+                new String [] {
+                        "STT", "Tên", "Mã hàng", "Khách hàng", "Ngày xuất", "Đơn vị", "Ghi chú", "Giá xuất", "Tổng tiền"
+                }
+        ) {
+            Class[] types = new Class [] {
+                    Integer.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                    false, false, false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+
+        customerExportCom.removeAllItems();
+        for(int i = 0; i < customers.size(); i++){
+            customerExportCom.addItem(customers.get(i).name);
+        }
+    }
+
+    private void renderStaticsTable(){
+        statisticTable.setModel(new DefaultTableModel(
+                staticsObj,
+                new String [] {
+                        "STT", "Tên", "Mã hàng", "Số lượng", "Tổng tiền"
+                }
+        ) {
+            Class[] types = new Class [] {
+                    Integer.class, String.class, String.class, Integer.class, String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                    false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
     }
 
     /**
@@ -279,6 +341,7 @@ public class ManageStorage extends JFrame {
         statisticBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 statisticBtnMouseClicked(evt);
+                renderStaticsTable();
             }
         });
 
@@ -624,32 +687,44 @@ public class ManageStorage extends JFrame {
         providerLabel1.setText("Khách hàng");
 
         addExportBtn.setText("Thêm");
+        addExportBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addExportBtnActionPerformed(-1, evt);
+            }
+
+        });
 
         editExportBtn.setText("Sửa");
+        editExportBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addExportBtnActionPerformed(selectedItem, evt);
+            }
+
+        });
 
         deleteExportBtn.setText("Xoá");
-
-        exportTable.setModel(new DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "STT", "Tên", "Mã hàng", "Khách hàng", "Ngày xuất", "Đơn vị", "Ghi chú", "Giá xuất", "Tổng tiền"
+        deleteExportBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportStorages.remove(selectedItem - 1);
+                exportService.save(exportStorages);
+                exportStorageObj = exportService.generateStoreObject();
+                renderExportTable();
             }
-        ) {
-            Class[] types = new Class [] {
-                Integer.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
-            };
+        });
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+        renderExportTable();
+        exportTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+            public void valueChanged(ListSelectionEvent event) {
+                try{
+                    selectedItem = Integer.parseInt(exportTable.getValueAt(exportTable.getSelectedRow(), 0).toString());
+                    nameItemExportCom.setSelectedItem(importTable.getValueAt(importTable.getSelectedRow(), 1).toString());
+                    codeExportCom.setSelectedItem(importTable.getValueAt(importTable.getSelectedRow(), 2).toString());
+                    customerExportCom.setSelectedItem(importTable.getValueAt(importTable.getSelectedRow(), 3).toString());
+                    quantityExportInput.setText(importTable.getValueAt(importTable.getSelectedRow(), 6).toString());
+                } catch (Exception e){
+                    selectedItem = -1;
+                }
             }
         });
         exportTableContainer.setViewportView(exportTable);
@@ -980,32 +1055,62 @@ public class ManageStorage extends JFrame {
         );
 
         statisticExportBtn.setText("Thống kê xuất hàng");
+        statisticExportBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                List<String> codeList = exportStorages.stream().map(e -> e.code).distinct().collect(Collectors.toList());
+                List<StoreEntity> storeEntities = new ArrayList<>();
+                for(String code: codeList){
+                    StoreEntity storeEntity = new StoreEntity();
+                    storeEntity.code = code;
+                    List<StoreEntity> tmp = exportStorages.stream().filter(e -> e.code.equals(code)).collect(Collectors.toList());
+                    storeEntity.name = tmp.get(0).name;
+                    storeEntity.quantity = tmp.stream().mapToInt(e -> e.quantity).sum();
+                    storeEntity.total = tmp.stream().mapToInt(e -> e.total).sum();
+                    storeEntities.add(storeEntity);
+                }
+                staticsObj = new Object[storeEntities.size()][5];
+                for(int i = 0; i < storeEntities.size(); i++){
+                    staticsObj[i][0] = i+1;
+                    staticsObj[i][1] = storeEntities.get(i).name;
+                    staticsObj[i][2] = storeEntities.get(i).code;
+                    staticsObj[i][3] = storeEntities.get(i).quantity;
+                    staticsObj[i][4] = storeEntities.get(i).total;
+                }
+                renderStaticsTable();
+            }
+
+        });
+
 
         statisticImportBtn.setText("Thống kê nhập hàng");
-
-        statisticTable.setModel(new DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "STT", "Tên", "Mã hàng", "Số lượng", "Tổng tiền"
+        statisticImportBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                List<String> codeList = importStorages.stream().map(e -> e.code).distinct().collect(Collectors.toList());
+                List<StoreEntity> storeEntities = new ArrayList<>();
+                for(String code: codeList){
+                    StoreEntity storeEntity = new StoreEntity();
+                    storeEntity.code = code;
+                    List<StoreEntity> tmp = importStorages.stream().filter(e -> e.code.equals(code)).collect(Collectors.toList());
+                    storeEntity.name = tmp.get(0).name;
+                    storeEntity.quantity = tmp.stream().mapToInt(e -> e.quantity).sum();
+                    storeEntity.total = tmp.stream().mapToInt(e -> e.total).sum();
+                    storeEntities.add(storeEntity);
+                }
+                staticsObj = new Object[storeEntities.size()][5];
+                for(int i = 0; i < storeEntities.size(); i++){
+                    staticsObj[i][0] = i+1;
+                    staticsObj[i][1] = storeEntities.get(i).name;
+                    staticsObj[i][2] = storeEntities.get(i).code;
+                    staticsObj[i][3] = storeEntities.get(i).quantity;
+                    staticsObj[i][4] = storeEntities.get(i).total;
+                }
+                renderStaticsTable();
             }
-        ) {
-            Class[] types = new Class [] {
-                Integer.class, String.class, String.class, Integer.class, String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
-            };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
         });
+
+
+        renderStaticsTable();
         statisticTableContainer.setViewportView(statisticTable);
         if (statisticTable.getColumnModel().getColumnCount() > 0) {
             statisticTable.getColumnModel().getColumn(0).setPreferredWidth(2);
@@ -1239,12 +1344,61 @@ public class ManageStorage extends JFrame {
         }
     }//GEN-LAST:event_editStorageBtnActionPerformed
 
+    private void addExportBtnActionPerformed(int selectedImport, java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editStorageBtnActionPerformed
+        if (quantityExportInput.getText() == null || quantityExportInput.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Bạn không được để trống số lượng hàng hoá");
+        } else {
+            StoreEntity storeEntity = new StoreEntity();
+            storeEntity.name = nameItemExportCom.getSelectedItem().toString();
+            storeEntity.code = codeExportCom.getSelectedItem().toString();
+            storeEntity.quantity = Integer.parseInt(quantityExportInput.getText());
+            storeEntity.person = customerExportCom.getSelectedItem().toString();
+            storeEntity.createdAt = new SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().getTime());
+            storeEntity.type = "Cái"; // toDo:
+            storeEntity.price = 1000;
+            storeEntity.total = storeEntity.quantity * storeEntity.price;
+            storeEntity.note = "";
+
+            Object[] o = new Object[9];
+            o[0] = exportStorages.size() + 1;
+            o[1] = storeEntity.name;
+            o[2] = storeEntity.code;
+            o[3] = storeEntity.person;
+            o[4] = storeEntity.createdAt;
+            o[5] = storeEntity.type;
+            o[6] = storeEntity.quantity;
+            o[7] = storeEntity.price;
+            o[8] = storeEntity.total;
+
+            if (selectedItem == -1){
+                exportStorages.add(storeEntity);
+                ((DefaultTableModel)exportTable.getModel()).addRow(o);
+            } else {
+                exportStorages.set(selectedItem-1, storeEntity);
+
+                exportTable.setValueAt(selectedItem, selectedItem - 1, 0);
+                exportTable.setValueAt(storeEntity.name, selectedItem - 1, 1);
+                exportTable.setValueAt(storeEntity.code, selectedItem - 1, 2);
+                exportTable.setValueAt(storeEntity.person, selectedItem - 1, 3);
+                exportTable.setValueAt(storeEntity.createdAt, selectedItem - 1, 4);
+                exportTable.setValueAt(storeEntity.type, selectedItem - 1, 5);
+                exportTable.setValueAt(storeEntity.quantity, selectedItem - 1, 6);
+                exportTable.setValueAt(storeEntity.price, selectedItem - 1, 7);
+                exportTable.setValueAt(storeEntity.total, selectedItem - 1, 8);
+            }
+
+            exportService.save(exportStorages);
+
+        }
+    }//GEN-LAST:event_editStorageBtnActionPerformed
+
     private void itemBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemBtnActionPerformed
         changeView(this.itemMenu);
     }//GEN-LAST:event_itemBtnActionPerformed
 
     private void exportBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exportBtnMouseClicked
         changeView(this.exportMenu);
+        renderExportTable();
     }//GEN-LAST:event_exportBtnMouseClicked
 
     private void customerBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_customerBtnMouseClicked
@@ -1420,5 +1574,9 @@ public class ManageStorage extends JFrame {
     private StoreService storeService;
     private List<StoreEntity> importStorages;
     private Object[][] importStorageObj;
+    private List<StoreEntity> exportStorages;
+    private Object[][] exportStorageObj;
+    private StoreService exportService;
+    private Object[][] staticsObj;
     // End of variables declaration//GEN-END:variables
 }
