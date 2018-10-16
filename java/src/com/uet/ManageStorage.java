@@ -5,8 +5,10 @@
  */
 package com.uet;
 
+import com.uet.model.ItemEntity;
 import com.uet.model.PersonEntity;
 import com.uet.model.StoreEntity;
+import com.uet.service.ItemService;
 import com.uet.service.PersonService;
 import com.uet.service.StoreService;
 
@@ -46,6 +48,10 @@ public class ManageStorage extends JFrame {
             storeService = new StoreService("import.txt");
             importStorages = storeService.convertData();
             importStorageObj = storeService.generateStoreObject();
+
+            itemService = new ItemService("item.txt");
+            items = itemService.convertData();
+            itemObj = itemService.generateItemObject();
         } catch (Exception e){
             System.out.println("Error");
         }
@@ -86,6 +92,52 @@ public class ManageStorage extends JFrame {
                 return canEdit [columnIndex];
             }
         });
+        customerTableContainer.setViewportView(customerTable);
+        if (customerTable.getColumnModel().getColumnCount() > 0) {
+            customerTable.getColumnModel().getColumn(0).setPreferredWidth(2);
+            customerTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+            customerTable.getColumnModel().getColumn(2).setPreferredWidth(200);
+            customerTable.getColumnModel().getColumn(3).setPreferredWidth(50);
+            customerTable.getColumnModel().getColumn(4).setPreferredWidth(50);
+            customerTable.getColumnModel().getColumn(5).setPreferredWidth(30);
+            customerTable.getColumnModel().getColumn(6).setPreferredWidth(50);
+        }
+    }
+
+    private void renderItemTable(){
+        itemTable.setModel(new DefaultTableModel(
+                itemObj,
+                new String [] {
+                        "STT", "Tên", "Mã hàng", "Đơn vị", "Nhà cung cấp", "Số lượng", "Giá nhập", "Giá xuất", "Ghi chú"
+                }
+        ) {
+            Class[] types = new Class [] {
+                    Integer.class, String.class, String.class, String.class, String.class, Integer.class, Integer.class, Integer.class, String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                    false, false, false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        itemTableContainer.setViewportView(itemTable);
+        if (itemTable.getColumnModel().getColumnCount() > 0) {
+            itemTable.getColumnModel().getColumn(0).setPreferredWidth(2);
+            itemTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+            itemTable.getColumnModel().getColumn(2).setPreferredWidth(200);
+            itemTable.getColumnModel().getColumn(3).setPreferredWidth(50);
+            itemTable.getColumnModel().getColumn(4).setPreferredWidth(50);
+            itemTable.getColumnModel().getColumn(5).setPreferredWidth(30);
+            itemTable.getColumnModel().getColumn(6).setPreferredWidth(50);
+            itemTable.getColumnModel().getColumn(7).setPreferredWidth(50);
+            itemTable.getColumnModel().getColumn(8).setPreferredWidth(80);
+        }
     }
 
     private void renderProviderTable(){
@@ -284,50 +336,206 @@ public class ManageStorage extends JFrame {
 
         addCustomerBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                addCustomerBtnMouseClicked(evt);
+                PersonEntity customer = new PersonEntity();
+                customer.name = nameCustomerInput.getText();
+                customer.address = addressCustomerInput.getText();
+                customer.phone = phoneCustomertInput.getText();
+                customer.note = noteCustomerInput.getText();
+                if(customer.name == null){
+                    JOptionPane.showMessageDialog(null, "Bạn không được để trống tên khách hàng");
+                } else if (customer.address == null){
+                    JOptionPane.showMessageDialog(null, "Bạn không được để trống địa chỉ khách hàng");
+                } else if (customer.phone == null){
+                    JOptionPane.showMessageDialog(null, "Bạn không được để trống số điện thoại khách hàng");
+                } else {
+                    customer.createdAt = new SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().getTime());
+                    customer.total = 0;
+                    customers.add(customer);
+                    Object[] o = new Object[7];
+                    o[0] = customers.size();
+                    o[1] = customer.name;
+                    o[2] = customer.address;
+                    o[3] = customer.phone;
+                    o[4] = customer.createdAt;
+                    o[5] = customer.total;
+                    o[6] = customer.note;
+                    DefaultTableModel model = (DefaultTableModel) customerTable.getModel();
+                    model.addRow(o);
+                    customerService.save(customers);
+                }
             }
         });
 
         editCustomerBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-//                editCustomerBtnMouseClicked(evt);
-                int row = customerTable.getSelectedRow();
-                if(row >= 0){
-                    PersonEntity customer = new PersonEntity();
-                    customer.name = nameCustomerInput.getText();
-                    customer.address = addressCustomerInput.getText();
-                    customer.phone = phoneCustomertInput.getText();
-                    customer.note = noteCustomerInput.getText();
-                    if(customer.name == null){
-                        JOptionPane.showMessageDialog(null, "Bạn không được để trống tên khách hàng");
-                    } else if (customer.address == null){
-                        JOptionPane.showMessageDialog(null, "Bạn không được để trống địa chỉ khách hàng");
-                    } else if (customer.phone == null){
-                        JOptionPane.showMessageDialog(null, "Bạn không được để trống số điện thoại khách hàng");
-                    } else {
-                        customer.createdAt = customerTable.getValueAt(row,4).toString();
-                        customer.total = Integer.parseInt(customerTable.getValueAt(row,5).toString());
-                        customers.set(row, customer);
-                        customerTable.setValueAt(customer.name, row, 1);
-                        customerTable.setValueAt(customer.address, row, 2);
-                        customerTable.setValueAt(customer.phone, row, 3);
-                        customerTable.setValueAt(customer.createdAt, row, 4);
-                        customerTable.setValueAt(customer.total, row, 5);
-                        customerTable.setValueAt(customer.note, row, 6);
-                    }
+            int row = customerTable.getSelectedRow();
+            if(row >= 0){
+                PersonEntity customer = new PersonEntity();
+                customer.name = nameCustomerInput.getText();
+                customer.address = addressCustomerInput.getText();
+                customer.phone = phoneCustomertInput.getText();
+                customer.note = noteCustomerInput.getText();
+                if(customer.name == null){
+                    JOptionPane.showMessageDialog(null, "Bạn không được để trống tên khách hàng");
+                } else if (customer.address == null){
+                    JOptionPane.showMessageDialog(null, "Bạn không được để trống địa chỉ khách hàng");
+                } else if (customer.phone == null){
+                    JOptionPane.showMessageDialog(null, "Bạn không được để trống số điện thoại khách hàng");
+                } else {
+                    customer.createdAt = customerTable.getValueAt(row,4).toString();
+                    customer.total = Integer.parseInt(customerTable.getValueAt(row,5).toString());
+                    customers.set(row, customer);
+                    customerTable.setValueAt(customer.name, row, 1);
+                    customerTable.setValueAt(customer.address, row, 2);
+                    customerTable.setValueAt(customer.phone, row, 3);
+                    customerTable.setValueAt(customer.createdAt, row, 4);
+                    customerTable.setValueAt(customer.total, row, 5);
+                    customerTable.setValueAt(customer.note, row, 6);
                 }
+            }
+            customerService.save(customers);
             }
         });
 
         deleteCustomerBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                int row = customerTable.getSelectedRow();
-                if(row >= 0){
-                    customers.remove(row);
+            int row = customerTable.getSelectedRow();
+            if(row >= 0){
+                customers.remove(row);
+                try {
+                    customerService.save(customers);
+                    customerObj = customerService.generateProviderObject();
+                    renderCustomerTable();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            }
+        });
+
+        itemTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+            public void valueChanged(ListSelectionEvent event) {
+                int row = itemTable.getSelectedRow();
+                try{
+                    nameInput.setText(itemTable.getValueAt(row, 1).toString());
+                    itemCodeInput.setText(itemTable.getValueAt(row, 2).toString());
+                    moneyImportInput.setText(itemTable.getValueAt(row, 6).toString());
+                    moneyExportInput.setText(itemTable.getValueAt(row, 7).toString());
+                    noteInput.setText(itemTable.getValueAt(row, 8).toString());
+                    typeItem.setSelectedItem(itemTable.getValueAt(row, 3).toString());
+                    providerComp.setSelectedItem(itemTable.getValueAt(row, 4).toString());
+                } catch (Exception e){
+
+                }
+            }
+        });
+
+        addItemBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ItemEntity item = new ItemEntity();
+                item.name = nameInput.getText();
+                item.code = itemCodeInput.getText();
+                item.type = typeItem.getSelectedItem().toString();
+                item.provider = providerComp.getSelectedItem().toString();
+                item.quantity = 0;
+                item.note = noteInput.getText();
+                if(item.name == null || item.name.length() == 0){
+                    JOptionPane.showMessageDialog(null, "Bạn không được để trống tên vật tư");
+                } else if (item.code == null || item.code.length() == 0){
+                    JOptionPane.showMessageDialog(null, "Bạn không được để trống mã vật tư");
+                } else if (item.type == null){
+                    JOptionPane.showMessageDialog(null, "Bạn không được để trống loại vật tư");
+                } else if (item.provider == null){
+                    JOptionPane.showMessageDialog(null, "Bạn không được để trống nhà cung cấp");
+                } else {
                     try {
-                        customerService.save(customers);
-                        customerObj = customerService.generateProviderObject();
-                        renderCustomerTable();
+                        item.priceImport = Integer.parseInt(moneyImportInput.getText());
+                        item.priceExport = Integer.parseInt(moneyExportInput.getText());
+                        if (item.priceImport <= 0){
+                            JOptionPane.showMessageDialog(null, "Giá nhập phải lớn hơn 0");
+                        } else if (item.priceExport <= 0){
+                            JOptionPane.showMessageDialog(null, "Giá xuất phải lớn hơn 0");
+                        } else {
+                            items.add(item);
+                            Object[] o = new Object[9];
+                            o[0] = items.size();
+                            o[1] = item.name;
+                            o[2] = item.code;
+                            o[3] = item.type;
+                            o[4] = item.provider;
+                            o[5] = item.quantity;
+                            o[6] = item.priceImport;
+                            o[7] = item.priceExport;
+                            o[8] = item.note;
+                            DefaultTableModel model = (DefaultTableModel) itemTable.getModel();
+                            model.addRow(o);
+//                            Lỗi trong việc ghi chú == null (tất cả các phần khác cung vậy)
+                            itemService.save(items);
+                        }
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, "Giá nhập hoặc giá xuất không đúng định dạng");
+                    }
+                }
+            }
+        });
+
+        editItemBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int row = itemTable.getSelectedRow();
+                if(row >= 0){
+                    ItemEntity item = new ItemEntity();
+                    item.name = nameInput.getText();
+                    item.code = itemCodeInput.getText();
+                    item.type = typeItem.getSelectedItem().toString();
+                    item.provider = providerComp.getSelectedItem().toString();
+                    item.quantity = 0;
+                    item.note = noteInput.getText();
+                    if(item.name == null || item.name.length() == 0){
+                        JOptionPane.showMessageDialog(null, "Bạn không được để trống tên vật tư");
+                    } else if (item.code == null || item.code.length() == 0){
+                        JOptionPane.showMessageDialog(null, "Bạn không được để trống mã vật tư");
+                    } else if (item.type == null){
+                        JOptionPane.showMessageDialog(null, "Bạn không được để trống loại vật tư");
+                    } else if (item.provider == null){
+                        JOptionPane.showMessageDialog(null, "Bạn không được để trống nhà cung cấp");
+                    } else {
+                        try {
+                            item.priceImport = Integer.parseInt(moneyImportInput.getText());
+                            item.priceExport = Integer.parseInt(moneyExportInput.getText());
+                            if (item.priceImport <= 0){
+                                JOptionPane.showMessageDialog(null, "Giá nhập phải lớn hơn 0");
+                            } else if (item.priceExport <= 0){
+                                JOptionPane.showMessageDialog(null, "Giá xuất phải lớn hơn 0");
+                            } else {
+                                items.set(row, item);
+                                customerTable.setValueAt(item.name, row, 1);
+                                customerTable.setValueAt(item.code, row, 2);
+                                customerTable.setValueAt(item.type, row, 3);
+                                customerTable.setValueAt(item.provider, row, 4);
+                                customerTable.setValueAt(item.quantity, row, 5);
+                                customerTable.setValueAt(item.priceImport, row, 6);
+                                customerTable.setValueAt(item.priceExport, row, 7);
+                                customerTable.setValueAt(item.note, row, 8);
+                                itemService.save(items);
+                            }
+                        } catch (Exception e) {
+                            JOptionPane.showMessageDialog(null, "Giá nhập hoặc giá xuất không đúng định dạng");
+                        }
+                    }
+                }
+                customerService.save(customers);
+            }
+        });
+
+        deleteItemBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int row = itemTable.getSelectedRow();
+                if(row >= 0){
+                    items.remove(row);
+                    try {
+                        itemService.save(items);
+                        itemObj = itemService.generateItemObject();
+                        renderItemTable();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -359,41 +567,7 @@ public class ManageStorage extends JFrame {
 
         deleteItemBtn.setText("Xoá");
 
-        itemTable.setModel(new DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "STT", "Tên", "Mã hàng", "Đơn vị", "Nhà cung cấp", "Số lượng", "Giá nhập", "Giá xuất", "Ghi chú"
-            }
-        ) {
-            Class[] types = new Class [] {
-                Integer.class, String.class, String.class, String.class, String.class, Integer.class, Integer.class, Integer.class, String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        itemTableContainer.setViewportView(itemTable);
-        if (itemTable.getColumnModel().getColumnCount() > 0) {
-            itemTable.getColumnModel().getColumn(0).setPreferredWidth(2);
-            itemTable.getColumnModel().getColumn(1).setPreferredWidth(100);
-            itemTable.getColumnModel().getColumn(2).setPreferredWidth(200);
-            itemTable.getColumnModel().getColumn(3).setPreferredWidth(50);
-            itemTable.getColumnModel().getColumn(4).setPreferredWidth(50);
-            itemTable.getColumnModel().getColumn(5).setPreferredWidth(30);
-            itemTable.getColumnModel().getColumn(6).setPreferredWidth(50);
-            itemTable.getColumnModel().getColumn(7).setPreferredWidth(50);
-            itemTable.getColumnModel().getColumn(8).setPreferredWidth(80);
-        }
+        renderItemTable();
 
         GroupLayout itemMenuLayout = new GroupLayout(itemMenu);
         itemMenu.setLayout(itemMenuLayout);
@@ -755,6 +929,7 @@ public class ManageStorage extends JFrame {
         deleteCustomerBtn.setText("Xoá");
 
         renderCustomerTable();
+
         customerTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
             public void valueChanged(ListSelectionEvent event) {
                try{
@@ -770,17 +945,6 @@ public class ManageStorage extends JFrame {
                }
             }
         });
-
-        customerTableContainer.setViewportView(customerTable);
-        if (customerTable.getColumnModel().getColumnCount() > 0) {
-            customerTable.getColumnModel().getColumn(0).setPreferredWidth(2);
-            customerTable.getColumnModel().getColumn(1).setPreferredWidth(100);
-            customerTable.getColumnModel().getColumn(2).setPreferredWidth(200);
-            customerTable.getColumnModel().getColumn(3).setPreferredWidth(50);
-            customerTable.getColumnModel().getColumn(4).setPreferredWidth(50);
-            customerTable.getColumnModel().getColumn(5).setPreferredWidth(30);
-            customerTable.getColumnModel().getColumn(6).setPreferredWidth(50);
-        }
 
         GroupLayout customerMenuLayout = new GroupLayout(customerMenu);
         customerMenu.setLayout(customerMenuLayout);
@@ -1259,35 +1423,6 @@ public class ManageStorage extends JFrame {
         changeView(this.statisticMenu);
     }//GEN-LAST:event_statisticBtnMouseClicked
 
-    private void addCustomerBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addCustomerBtnMouseClicked
-        PersonEntity customer = new PersonEntity();
-        customer.name = nameCustomerInput.getText();
-        customer.address = addressCustomerInput.getText();
-        customer.phone = phoneCustomertInput.getText();
-        customer.note = noteCustomerInput.getText();
-        if(customer.name == null){
-            JOptionPane.showMessageDialog(null, "Bạn không được để trống tên khách hàng");
-        } else if (customer.address == null){
-            JOptionPane.showMessageDialog(null, "Bạn không được để trống địa chỉ khách hàng");
-        } else if (customer.phone == null){
-            JOptionPane.showMessageDialog(null, "Bạn không được để trống số điện thoại khách hàng");
-        } else {
-            customer.createdAt = new SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().getTime());
-            customer.total = 0;
-            customers.add(customer);
-            Object[] o = new Object[7];
-            o[0] = customers.size();
-            o[1] = customer.name;
-            o[2] = customer.address;
-            o[3] = customer.phone;
-            o[4] = customer.createdAt;
-            o[5] = customer.total;
-            o[6] = customer.note;
-            DefaultTableModel model = (DefaultTableModel) customerTable.getModel();
-            model.addRow(o);
-        }
-    }//GEN-LAST:event_addCustomerBtnMouseClicked
-
     /**
      * @param args the command line arguments
      */
@@ -1420,5 +1555,8 @@ public class ManageStorage extends JFrame {
     private StoreService storeService;
     private List<StoreEntity> importStorages;
     private Object[][] importStorageObj;
+    private ItemService itemService;
+    private List<ItemEntity> items;
+    private Object[][] itemObj;
     // End of variables declaration//GEN-END:variables
 }
