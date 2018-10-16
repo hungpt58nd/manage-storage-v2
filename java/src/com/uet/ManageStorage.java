@@ -36,6 +36,9 @@ public class ManageStorage extends JFrame {
             providerService = new PersonService("provider.txt");
             providerObj = providerService.generateProviderObject();
             providers = providerService.convertData();
+            customerService = new PersonService("customer.txt");
+            customers = customerService.convertData();
+            customerObj = customerService.generateProviderObject();
         } catch (Exception e){
             System.out.println("Error");
         }
@@ -51,6 +54,31 @@ public class ManageStorage extends JFrame {
         if(panel != null) {
             panel.setVisible(true);
         }
+    }
+
+    private Object[][] customerObj;
+    private void renderCustomerTable(){
+        customerTable.setModel(new javax.swing.table.DefaultTableModel(
+                customerObj,
+                new String [] {
+                        "STT", "Tên", "Địa chỉ", "Số điện thoại", "Ngày tạo", "Tổng tiền", "Ghi chú"
+                }
+        ) {
+            Class[] types = new Class [] {
+                    java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                    false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
     }
 
     private void renderProviderTable(){
@@ -216,6 +244,59 @@ public class ManageStorage extends JFrame {
         statisticBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 statisticBtnMouseClicked(evt);
+            }
+        });
+
+        addCustomerBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                addCustomerBtnMouseClicked(evt);
+            }
+        });
+
+        editCustomerBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+//                editCustomerBtnMouseClicked(evt);
+                int row = customerTable.getSelectedRow();
+                if(row >= 0){
+                    PersonEntity customer = new PersonEntity();
+                    customer.name = nameCustomerInput.getText();
+                    customer.address = addressCustomerInput.getText();
+                    customer.phone = phoneCustomertInput.getText();
+                    customer.note = noteCustomerInput.getText();
+                    if(customer.name == null){
+                        JOptionPane.showMessageDialog(null, "Bạn không được để trống tên khách hàng");
+                    } else if (customer.address == null){
+                        JOptionPane.showMessageDialog(null, "Bạn không được để trống địa chỉ khách hàng");
+                    } else if (customer.phone == null){
+                        JOptionPane.showMessageDialog(null, "Bạn không được để trống số điện thoại khách hàng");
+                    } else {
+                        customer.createdAt = customerTable.getValueAt(row,4).toString();
+                        customer.total = Integer.parseInt(customerTable.getValueAt(row,5).toString());
+                        customers.set(row, customer);
+                        customerTable.setValueAt(customer.name, row, 1);
+                        customerTable.setValueAt(customer.address, row, 2);
+                        customerTable.setValueAt(customer.phone, row, 3);
+                        customerTable.setValueAt(customer.createdAt, row, 4);
+                        customerTable.setValueAt(customer.total, row, 5);
+                        customerTable.setValueAt(customer.note, row, 6);
+                    }
+                }
+            }
+        });
+
+        deleteCustomerBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int row = customerTable.getSelectedRow();
+                if(row >= 0){
+                    customers.remove(row);
+                    try {
+                        customerService.save(customers);
+                        customerObj = customerService.generateProviderObject();
+                        renderCustomerTable();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
 
@@ -622,29 +703,23 @@ public class ManageStorage extends JFrame {
 
         deleteCustomerBtn.setText("Xoá");
 
-        customerTable.setModel(new DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "STT", "Tên", "Địa chỉ", "Số điện thoại", "Ngày tạo", "Tổng tiền", "Ghi chú"
-            }
-        ) {
-            Class[] types = new Class [] {
-                Integer.class, String.class, String.class, String.class, String.class, String.class, String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+        renderCustomerTable();
+        customerTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+            public void valueChanged(ListSelectionEvent event) {
+               try{
+                   nameCustomerInput.setText(customerTable.getValueAt(customerTable.getSelectedRow(), 1).toString());
+                   addressCustomerInput.setText(customerTable.getValueAt(customerTable.getSelectedRow(), 2).toString());
+                   phoneCustomertInput.setText(customerTable.getValueAt(customerTable.getSelectedRow(), 3).toString());
+                   noteCustomerInput.setText(customerTable.getValueAt(customerTable.getSelectedRow(), 6).toString());
+               } catch (Exception e){
+                   nameCustomerInput.setText("");
+                   addressCustomerInput.setText("");
+                   phoneCustomertInput.setText("");
+                   noteCustomerInput.setText("");
+               }
             }
         });
+
         customerTableContainer.setViewportView(customerTable);
         if (customerTable.getColumnModel().getColumnCount() > 0) {
             customerTable.getColumnModel().getColumn(0).setPreferredWidth(2);
@@ -1087,6 +1162,35 @@ public class ManageStorage extends JFrame {
         changeView(this.statisticMenu);
     }//GEN-LAST:event_statisticBtnMouseClicked
 
+    private void addCustomerBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addCustomerBtnMouseClicked
+        PersonEntity customer = new PersonEntity();
+        customer.name = nameCustomerInput.getText();
+        customer.address = addressCustomerInput.getText();
+        customer.phone = phoneCustomertInput.getText();
+        customer.note = noteCustomerInput.getText();
+        if(customer.name == null){
+            JOptionPane.showMessageDialog(null, "Bạn không được để trống tên khách hàng");
+        } else if (customer.address == null){
+            JOptionPane.showMessageDialog(null, "Bạn không được để trống địa chỉ khách hàng");
+        } else if (customer.phone == null){
+            JOptionPane.showMessageDialog(null, "Bạn không được để trống số điện thoại khách hàng");
+        } else {
+            customer.createdAt = new SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().getTime());
+            customer.total = 0;
+            customers.add(customer);
+            Object[] o = new Object[7];
+            o[0] = customers.size();
+            o[1] = customer.name;
+            o[2] = customer.address;
+            o[3] = customer.phone;
+            o[4] = customer.createdAt;
+            o[5] = customer.total;
+            o[6] = customer.note;
+            DefaultTableModel model = (DefaultTableModel) customerTable.getModel();
+            model.addRow(o);
+        }
+    }//GEN-LAST:event_addCustomerBtnMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1214,5 +1318,7 @@ public class ManageStorage extends JFrame {
     private PersonService providerService;
     private int selectedProvider;
     private Object[][] providerObj;
+    private List<PersonEntity> customers;
+    private PersonService customerService;
     // End of variables declaration//GEN-END:variables
 }
