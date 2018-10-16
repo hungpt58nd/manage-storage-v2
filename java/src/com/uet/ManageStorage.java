@@ -13,6 +13,7 @@ import com.uet.service.StoreService;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,7 +30,10 @@ public class ManageStorage extends JFrame {
     /**
      * Creates new form ManageStorage
      */
+    DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+
     public ManageStorage() {
+        centerRenderer.setHorizontalAlignment( JLabel.CENTER );
         initData();
         initComponents();
         this.changeView(this.itemMenu);
@@ -54,7 +58,6 @@ public class ManageStorage extends JFrame {
             exportStorageObj = exportService.generateStoreObject();
 
             staticsObj = new Object[1][5];
-
         } catch (Exception e){
             System.out.println("Error");
         }
@@ -95,6 +98,9 @@ public class ManageStorage extends JFrame {
                 return canEdit [columnIndex];
             }
         });
+        customerTable.setDefaultRenderer(Object.class, centerRenderer);
+        ((DefaultTableCellRenderer)customerTable.getTableHeader().getDefaultRenderer())
+                .setHorizontalAlignment(JLabel.CENTER);
     }
 
     private void renderProviderTable(){
@@ -119,6 +125,9 @@ public class ManageStorage extends JFrame {
                 return canEdit [columnIndex];
             }
         });
+        providerTable.setDefaultRenderer(Object.class, centerRenderer);
+        ((DefaultTableCellRenderer)providerTable.getTableHeader().getDefaultRenderer())
+                .setHorizontalAlignment(JLabel.CENTER);
     }
 
     private void renderImportTable(){
@@ -140,6 +149,10 @@ public class ManageStorage extends JFrame {
                 return canEdit [columnIndex];
             }
         });
+
+        importTable.setDefaultRenderer(Object.class, centerRenderer);
+        ((DefaultTableCellRenderer)importTable.getTableHeader().getDefaultRenderer())
+                .setHorizontalAlignment(JLabel.CENTER);
 
         importTable.setRowSelectionAllowed(true);
         providerList.removeAllItems();
@@ -172,6 +185,11 @@ public class ManageStorage extends JFrame {
             }
         });
 
+        exportTable.setDefaultRenderer(String.class, centerRenderer);
+        ((DefaultTableCellRenderer)exportTable.getTableHeader().getDefaultRenderer())
+                .setHorizontalAlignment(JLabel.CENTER);
+
+
         customerExportCom.removeAllItems();
         for(int i = 0; i < customers.size(); i++){
             customerExportCom.addItem(customers.get(i).name);
@@ -200,6 +218,11 @@ public class ManageStorage extends JFrame {
                 return canEdit [columnIndex];
             }
         });
+
+        statisticTable.setDefaultRenderer(Object.class, centerRenderer);
+        ((DefaultTableCellRenderer)statisticTable.getTableHeader().getDefaultRenderer())
+                .setHorizontalAlignment(JLabel.CENTER);
+
     }
 
     /**
