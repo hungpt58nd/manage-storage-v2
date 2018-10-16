@@ -133,6 +133,11 @@ public class ManageStorage extends JFrame {
         });
 
         importTable.setRowSelectionAllowed(true);
+        providerList.removeAllItems();
+        for(int i = 0; i < providers.size(); i++) {
+            providerList.addItem(providers.get(i).name);
+        }
+        providerList.setSelectedIndex(0);
     }
 
     /**
@@ -497,8 +502,6 @@ public class ManageStorage extends JFrame {
         codeListLabel.setText("Mã hàng");
 
         quantityLabel.setText("Số lượng");
-
-        providerList.setModel(new DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         providerStorageLabel.setText("Nhà cung cấp");
 
@@ -1180,6 +1183,7 @@ public class ManageStorage extends JFrame {
 
     private void importBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importBtnActionPerformed
         changeView(this.storageMenu);
+        renderImportTable();
     }//GEN-LAST:event_importBtnActionPerformed
 
     private void quantityInputStorageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quantityInputStorageActionPerformed
