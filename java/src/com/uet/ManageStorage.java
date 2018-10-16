@@ -279,6 +279,7 @@ public class ManageStorage extends JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+
         itemBtn = new JButton();
         importBtn = new JButton();
         exportBtn = new JButton();
@@ -415,7 +416,33 @@ public class ManageStorage extends JFrame {
 
         addCustomerBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                addCustomerBtnMouseClicked(evt);
+                PersonEntity customer = new PersonEntity();
+                customer.name = nameCustomerInput.getText();
+                customer.address = addressCustomerInput.getText();
+                customer.phone = phoneCustomertInput.getText();
+                customer.note = noteCustomerInput.getText();
+                if(customer.name == null){
+                    JOptionPane.showMessageDialog(null, "Bạn không được để trống tên khách hàng");
+                } else if (customer.address == null){
+                    JOptionPane.showMessageDialog(null, "Bạn không được để trống địa chỉ khách hàng");
+                } else if (customer.phone == null){
+                    JOptionPane.showMessageDialog(null, "Bạn không được để trống số điện thoại khách hàng");
+                } else {
+                    customer.createdAt = new SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().getTime());
+                    customer.total = 0;
+                    customers.add(customer);
+                    Object[] o = new Object[7];
+                    o[0] = customers.size();
+                    o[1] = customer.name;
+                    o[2] = customer.address;
+                    o[3] = customer.phone;
+                    o[4] = customer.createdAt;
+                    o[5] = customer.total;
+                    o[6] = customer.note;
+                    DefaultTableModel model = (DefaultTableModel) customerTable.getModel();
+                    model.addRow(o);
+                    customerService.save(customers);
+                }
             }
         });
 
@@ -453,17 +480,17 @@ public class ManageStorage extends JFrame {
 
         deleteCustomerBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                int row = customerTable.getSelectedRow();
-                if(row >= 0){
-                    customers.remove(row);
-                    try {
-                        customerService.save(customers);
-                        customerObj = customerService.generateProviderObject();
-                        renderCustomerTable();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+            int row = customerTable.getSelectedRow();
+            if(row >= 0){
+                customers.remove(row);
+                try {
+                    customerService.save(customers);
+                    customerObj = customerService.generateProviderObject();
+                    renderCustomerTable();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+            }
             }
         });
 
@@ -995,6 +1022,7 @@ public class ManageStorage extends JFrame {
         deleteCustomerBtn.setText("Xoá");
 
         renderCustomerTable();
+
         customerTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
             public void valueChanged(ListSelectionEvent event) {
                try{
