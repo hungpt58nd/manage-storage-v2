@@ -15,6 +15,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -41,6 +42,7 @@ public class ManageStorage extends JFrame {
 
     private void initData() {
         try {
+
             providerService = new PersonService("provider.txt");
             providerObj = providerService.generateProviderObject();
             providers = providerService.convertData();
@@ -70,8 +72,10 @@ public class ManageStorage extends JFrame {
         this.customerMenu.setVisible(false);
         this.providerMenu.setVisible(false);
         this.statisticMenu.setVisible(false);
+
         if(panel != null) {
             panel.setVisible(true);
+            validate();
         }
     }
 
@@ -185,7 +189,7 @@ public class ManageStorage extends JFrame {
             }
         });
 
-        exportTable.setDefaultRenderer(String.class, centerRenderer);
+        exportTable.setDefaultRenderer(Object.class, centerRenderer);
         ((DefaultTableCellRenderer)exportTable.getTableHeader().getDefaultRenderer())
                 .setHorizontalAlignment(JLabel.CENTER);
 
@@ -233,7 +237,6 @@ public class ManageStorage extends JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         itemBtn = new JButton();
         importBtn = new JButton();
         exportBtn = new JButton();
@@ -741,10 +744,10 @@ public class ManageStorage extends JFrame {
             public void valueChanged(ListSelectionEvent event) {
                 try{
                     selectedItem = Integer.parseInt(exportTable.getValueAt(exportTable.getSelectedRow(), 0).toString());
-                    nameItemExportCom.setSelectedItem(importTable.getValueAt(importTable.getSelectedRow(), 1).toString());
-                    codeExportCom.setSelectedItem(importTable.getValueAt(importTable.getSelectedRow(), 2).toString());
-                    customerExportCom.setSelectedItem(importTable.getValueAt(importTable.getSelectedRow(), 3).toString());
-                    quantityExportInput.setText(importTable.getValueAt(importTable.getSelectedRow(), 6).toString());
+                    nameItemExportCom.setSelectedItem(exportTable.getValueAt(exportTable.getSelectedRow(), 1).toString());
+                    codeExportCom.setSelectedItem(exportTable.getValueAt(exportTable.getSelectedRow(), 2).toString());
+                    customerExportCom.setSelectedItem(exportTable.getValueAt(exportTable.getSelectedRow(), 3).toString());
+                    quantityExportInput.setText(exportTable.getValueAt(exportTable.getSelectedRow(), 6).toString());
                 } catch (Exception e){
                     selectedItem = -1;
                 }
@@ -1264,6 +1267,9 @@ public class ManageStorage extends JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
+        setResizable(false);
     }// </editor-fold>//GEN-END:initComponents
 
     private void addProviderBtnActionPerformed(int selectedProvider, java.awt.event.ActionEvent evt) {
@@ -1413,6 +1419,7 @@ public class ManageStorage extends JFrame {
             exportService.save(exportStorages);
 
         }
+
     }//GEN-LAST:event_editStorageBtnActionPerformed
 
     private void itemBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemBtnActionPerformed

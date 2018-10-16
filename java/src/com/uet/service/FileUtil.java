@@ -19,6 +19,11 @@ public class FileUtil {
     private String fileName;
 
     public FileUtil(String fileName) throws IOException {
+        File file = new File(fileName);
+        if(!file.exists()){
+            file.createNewFile();
+        }
+
         this.fileName = fileName;
     }
 
