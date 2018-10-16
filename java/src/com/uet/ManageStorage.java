@@ -5,7 +5,6 @@
  */
 package com.uet;
 
-
 import com.uet.model.PersonEntity;
 import com.uet.service.PersonService;
 
@@ -13,7 +12,6 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -22,7 +20,7 @@ import java.util.List;
  *
  * @author hungpt
  */
-public class ManageStorage extends javax.swing.JFrame {
+public class ManageStorage extends JFrame {
 
     /**
      * Creates new form ManageStorage
@@ -36,15 +34,13 @@ public class ManageStorage extends javax.swing.JFrame {
     private void initData() {
         try {
             providerService = new PersonService("provider.txt");
+            providerObj = providerService.generateProviderObject();
             providers = providerService.convertData();
-            customerService = new PersonService("customer.txt");
-            customers = customerService.convertData();
-            customerObj = customerService.generateProviderObject();
         } catch (Exception e){
             System.out.println("Error");
         }
     }
-    
+
     private void changeView(JPanel panel){
         this.itemMenu.setVisible(false);
         this.storageMenu.setVisible(false);
@@ -57,16 +53,15 @@ public class ManageStorage extends javax.swing.JFrame {
         }
     }
 
-    private Object[][] customerObj;
-    private void renderCustomerTable(){
-        customerTable.setModel(new javax.swing.table.DefaultTableModel(
-                customerObj,
+    private void renderProviderTable(){
+        providerTable.setModel(new DefaultTableModel(
+                providerObj,
                 new String [] {
                         "STT", "Tên", "Địa chỉ", "Số điện thoại", "Ngày tạo", "Tổng tiền", "Ghi chú"
                 }
         ) {
             Class[] types = new Class [] {
-                    java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                    Integer.class, String.class, String.class, String.class, String.class, String.class, String.class
             };
             boolean[] canEdit = new boolean [] {
                     false, false, false, false, false, false, false
@@ -91,95 +86,95 @@ public class ManageStorage extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        itemBtn = new javax.swing.JButton();
-        importBtn = new javax.swing.JButton();
-        exportBtn = new javax.swing.JButton();
-        customerBtn = new javax.swing.JButton();
-        providerBtn = new javax.swing.JButton();
-        statisticBtn = new javax.swing.JButton();
-        itemMenu = new javax.swing.JPanel();
-        nameInput = new javax.swing.JTextField();
-        itemLabel = new javax.swing.JLabel();
-        itemCodeInput = new javax.swing.JTextField();
-        codeLabel = new javax.swing.JLabel();
-        typeItem = new javax.swing.JComboBox<>();
-        typeLabel = new javax.swing.JLabel();
-        providerComp = new javax.swing.JComboBox<>();
-        providerLabel = new javax.swing.JLabel();
-        moneyImportInput = new javax.swing.JTextField();
-        moneyImportLabel = new javax.swing.JLabel();
-        moneyExportInput = new javax.swing.JTextField();
-        moneyExportLabel = new javax.swing.JLabel();
-        noteInput = new javax.swing.JTextField();
-        noteLabel = new javax.swing.JLabel();
-        addItemBtn = new javax.swing.JButton();
-        editItemBtn = new javax.swing.JButton();
-        deleteItemBtn = new javax.swing.JButton();
-        itemTableContainer = new javax.swing.JScrollPane();
-        itemTable = new javax.swing.JTable();
-        storageMenu = new javax.swing.JPanel();
-        itemListStorage = new javax.swing.JComboBox<>();
-        itemListLabel = new javax.swing.JLabel();
-        codeListStorage = new javax.swing.JComboBox<>();
-        quantityInputStorage = new javax.swing.JTextField();
-        codeListLabel = new javax.swing.JLabel();
-        quantityLabel = new javax.swing.JLabel();
-        providerList = new javax.swing.JComboBox<>();
-        providerStorageLabel = new javax.swing.JLabel();
-        storeBtn = new javax.swing.JButton();
-        editStorageBtn = new javax.swing.JButton();
-        deleteItemStorageBtn = new javax.swing.JButton();
-        importContainer = new javax.swing.JScrollPane();
-        importTable = new javax.swing.JTable();
-        exportMenu = new javax.swing.JPanel();
-        itemLabel1 = new javax.swing.JLabel();
-        codeLabel1 = new javax.swing.JLabel();
-        typeLabel1 = new javax.swing.JLabel();
-        providerLabel1 = new javax.swing.JLabel();
-        addExportBtn = new javax.swing.JButton();
-        editExportBtn = new javax.swing.JButton();
-        deleteExportBtn = new javax.swing.JButton();
-        exportTableContainer = new javax.swing.JScrollPane();
-        exportTable = new javax.swing.JTable();
-        nameItemExportCom = new javax.swing.JComboBox<>();
-        codeExportCom = new javax.swing.JComboBox<>();
-        customerExportCom = new javax.swing.JComboBox<>();
-        quantityExportInput = new javax.swing.JTextField();
-        customerMenu = new javax.swing.JPanel();
-        nameCustomerInput = new javax.swing.JTextField();
-        itemLabel2 = new javax.swing.JLabel();
-        addressCustomerInput = new javax.swing.JTextField();
-        codeLabel2 = new javax.swing.JLabel();
-        typeLabel2 = new javax.swing.JLabel();
-        providerLabel2 = new javax.swing.JLabel();
-        phoneCustomertInput = new javax.swing.JTextField();
-        noteCustomerInput = new javax.swing.JTextField();
-        addCustomerBtn = new javax.swing.JButton();
-        editCustomerBtn = new javax.swing.JButton();
-        deleteCustomerBtn = new javax.swing.JButton();
-        customerTableContainer = new javax.swing.JScrollPane();
-        customerTable = new javax.swing.JTable();
-        providerMenu = new javax.swing.JPanel();
-        nameProviderInput = new javax.swing.JTextField();
-        itemLabel4 = new javax.swing.JLabel();
-        addressProviderInput = new javax.swing.JTextField();
-        codeLabel4 = new javax.swing.JLabel();
-        typeLabel4 = new javax.swing.JLabel();
-        providerLabel4 = new javax.swing.JLabel();
-        phoneProviderInput = new javax.swing.JTextField();
-        noteProviderInput = new javax.swing.JTextField();
-        addProviderBtn = new javax.swing.JButton();
-        editProviderBtn = new javax.swing.JButton();
-        deleteProviderBtn = new javax.swing.JButton();
-        providerTableContainer = new javax.swing.JScrollPane();
-        providerTable = new javax.swing.JTable();
-        statisticMenu = new javax.swing.JPanel();
-        statisticExportBtn = new javax.swing.JButton();
-        statisticImportBtn = new javax.swing.JButton();
-        statisticTableContainer = new javax.swing.JScrollPane();
-        statisticTable = new javax.swing.JTable();
+        itemBtn = new JButton();
+        importBtn = new JButton();
+        exportBtn = new JButton();
+        customerBtn = new JButton();
+        providerBtn = new JButton();
+        statisticBtn = new JButton();
+        itemMenu = new JPanel();
+        nameInput = new JTextField();
+        itemLabel = new JLabel();
+        itemCodeInput = new JTextField();
+        codeLabel = new JLabel();
+        typeItem = new JComboBox<>();
+        typeLabel = new JLabel();
+        providerComp = new JComboBox<>();
+        providerLabel = new JLabel();
+        moneyImportInput = new JTextField();
+        moneyImportLabel = new JLabel();
+        moneyExportInput = new JTextField();
+        moneyExportLabel = new JLabel();
+        noteInput = new JTextField();
+        noteLabel = new JLabel();
+        addItemBtn = new JButton();
+        editItemBtn = new JButton();
+        deleteItemBtn = new JButton();
+        itemTableContainer = new JScrollPane();
+        itemTable = new JTable();
+        storageMenu = new JPanel();
+        itemListStorage = new JComboBox<>();
+        itemListLabel = new JLabel();
+        codeListStorage = new JComboBox<>();
+        quantityInputStorage = new JTextField();
+        codeListLabel = new JLabel();
+        quantityLabel = new JLabel();
+        providerList = new JComboBox<>();
+        providerStorageLabel = new JLabel();
+        storeBtn = new JButton();
+        editStorageBtn = new JButton();
+        deleteItemStorageBtn = new JButton();
+        importContainer = new JScrollPane();
+        importTable = new JTable();
+        exportMenu = new JPanel();
+        itemLabel1 = new JLabel();
+        codeLabel1 = new JLabel();
+        typeLabel1 = new JLabel();
+        providerLabel1 = new JLabel();
+        addExportBtn = new JButton();
+        editExportBtn = new JButton();
+        deleteExportBtn = new JButton();
+        exportTableContainer = new JScrollPane();
+        exportTable = new JTable();
+        nameItemExportCom = new JComboBox<>();
+        codeExportCom = new JComboBox<>();
+        customerExportCom = new JComboBox<>();
+        quantityExportInput = new JTextField();
+        customerMenu = new JPanel();
+        nameCustomerInput = new JTextField();
+        itemLabel2 = new JLabel();
+        addressCustomerInput = new JTextField();
+        codeLabel2 = new JLabel();
+        typeLabel2 = new JLabel();
+        providerLabel2 = new JLabel();
+        phoneCustomertInput = new JTextField();
+        noteCustomerInput = new JTextField();
+        addCustomerBtn = new JButton();
+        editCustomerBtn = new JButton();
+        deleteCustomerBtn = new JButton();
+        customerTableContainer = new JScrollPane();
+        customerTable = new JTable();
+        providerMenu = new JPanel();
+        nameProviderInput = new JTextField();
+        itemLabel4 = new JLabel();
+        addressProviderInput = new JTextField();
+        codeLabel4 = new JLabel();
+        typeLabel4 = new JLabel();
+        providerLabel4 = new JLabel();
+        phoneProviderInput = new JTextField();
+        noteProviderInput = new JTextField();
+        addProviderBtn = new JButton();
+        editProviderBtn = new JButton();
+        deleteProviderBtn = new JButton();
+        providerTableContainer = new JScrollPane();
+        providerTable = new JTable();
+        statisticMenu = new JPanel();
+        statisticExportBtn = new JButton();
+        statisticImportBtn = new JButton();
+        statisticTableContainer = new JScrollPane();
+        statisticTable = new JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         itemBtn.setText("Quản lí vật tư");
         itemBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -224,68 +219,15 @@ public class ManageStorage extends javax.swing.JFrame {
             }
         });
 
-        addCustomerBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                addCustomerBtnMouseClicked(evt);
-            }
-        });
-
-        editCustomerBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-//                editCustomerBtnMouseClicked(evt);
-                int row = customerTable.getSelectedRow();
-                if(row >= 0){
-                    PersonEntity customer = new PersonEntity();
-                    customer.name = nameCustomerInput.getText();
-                    customer.address = addressCustomerInput.getText();
-                    customer.phone = phoneCustomertInput.getText();
-                    customer.note = noteCustomerInput.getText();
-                    if(customer.name == null){
-                        JOptionPane.showMessageDialog(null, "Bạn không được để trống tên khách hàng");
-                    } else if (customer.address == null){
-                        JOptionPane.showMessageDialog(null, "Bạn không được để trống địa chỉ khách hàng");
-                    } else if (customer.phone == null){
-                        JOptionPane.showMessageDialog(null, "Bạn không được để trống số điện thoại khách hàng");
-                    } else {
-                        customer.createdAt = customerTable.getValueAt(row,4).toString();
-                        customer.total = Integer.parseInt(customerTable.getValueAt(row,5).toString());
-                        customers.set(row, customer);
-                        customerTable.setValueAt(customer.name, row, 1);
-                        customerTable.setValueAt(customer.address, row, 2);
-                        customerTable.setValueAt(customer.phone, row, 3);
-                        customerTable.setValueAt(customer.createdAt, row, 4);
-                        customerTable.setValueAt(customer.total, row, 5);
-                        customerTable.setValueAt(customer.note, row, 6);
-                    }
-                }
-            }
-        });
-
-        deleteCustomerBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                int row = customerTable.getSelectedRow();
-                if(row >= 0){
-                    customers.remove(row);
-                    try {
-                        customerService.save(customers);
-                        customerObj = customerService.generateProviderObject();
-                        renderCustomerTable();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-
         itemLabel.setText("Tên");
 
         codeLabel.setText("Mã hàng");
 
-        typeItem.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        typeItem.setModel(new DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         typeLabel.setText("Đơn vị");
 
-        providerComp.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        providerComp.setModel(new DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         providerLabel.setText("Nhà cung cấp");
 
@@ -301,7 +243,7 @@ public class ManageStorage extends javax.swing.JFrame {
 
         deleteItemBtn.setText("Xoá");
 
-        itemTable.setModel(new javax.swing.table.DefaultTableModel(
+        itemTable.setModel(new DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null}
             },
@@ -310,7 +252,7 @@ public class ManageStorage extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class
+                Integer.class, String.class, String.class, String.class, String.class, Integer.class, Integer.class, Integer.class, String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false, false, false
@@ -337,43 +279,43 @@ public class ManageStorage extends javax.swing.JFrame {
             itemTable.getColumnModel().getColumn(8).setPreferredWidth(80);
         }
 
-        javax.swing.GroupLayout itemMenuLayout = new javax.swing.GroupLayout(itemMenu);
+        GroupLayout itemMenuLayout = new GroupLayout(itemMenu);
         itemMenu.setLayout(itemMenuLayout);
         itemMenuLayout.setHorizontalGroup(
-            itemMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            itemMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(itemMenuLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(itemMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, itemMenuLayout.createSequentialGroup()
-                        .addGroup(itemMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nameInput, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(itemMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGroup(GroupLayout.Alignment.TRAILING, itemMenuLayout.createSequentialGroup()
+                        .addGroup(itemMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                            .addComponent(nameInput, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
                             .addGroup(itemMenuLayout.createSequentialGroup()
                                 .addGap(8, 8, 8)
                                 .addComponent(itemLabel)))
-                        .addGroup(itemMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(itemMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                             .addGroup(itemMenuLayout.createSequentialGroup()
                                 .addGap(28, 28, 28)
-                                .addComponent(codeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(codeLabel, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE))
                             .addGroup(itemMenuLayout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addComponent(itemCodeInput)))
-                        .addGroup(itemMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(itemMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                             .addGroup(itemMenuLayout.createSequentialGroup()
                                 .addGap(18, 18, 18)
-                                .addComponent(typeItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(typeItem, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(providerComp, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(providerComp, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE))
                             .addGroup(itemMenuLayout.createSequentialGroup()
                                 .addGap(28, 28, 28)
                                 .addComponent(typeLabel)
                                 .addGap(73, 73, 73)
                                 .addComponent(providerLabel)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(itemMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(itemMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                             .addGroup(itemMenuLayout.createSequentialGroup()
-                                .addComponent(moneyImportInput, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(moneyImportInput, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(moneyExportInput, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(moneyExportInput, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(noteInput)
                                 .addContainerGap())
@@ -382,58 +324,58 @@ public class ManageStorage extends javax.swing.JFrame {
                                 .addComponent(moneyImportLabel)
                                 .addGap(104, 104, 104)
                                 .addComponent(moneyExportLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(noteLabel)
                                 .addGap(80, 80, 80))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, itemMenuLayout.createSequentialGroup()
+                    .addGroup(GroupLayout.Alignment.TRAILING, itemMenuLayout.createSequentialGroup()
                         .addComponent(addItemBtn)
                         .addGap(18, 18, 18)
                         .addComponent(editItemBtn)
                         .addGap(18, 18, 18)
                         .addComponent(deleteItemBtn)
                         .addGap(402, 402, 402))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, itemMenuLayout.createSequentialGroup()
+                    .addGroup(GroupLayout.Alignment.TRAILING, itemMenuLayout.createSequentialGroup()
                         .addComponent(itemTableContainer)
                         .addContainerGap())))
         );
         itemMenuLayout.setVerticalGroup(
-            itemMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            itemMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(itemMenuLayout.createSequentialGroup()
                 .addGap(13, 13, 13)
-                .addGroup(itemMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(providerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(itemMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(itemMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(providerLabel, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
+                    .addGroup(itemMenuLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                         .addComponent(itemLabel)
                         .addComponent(codeLabel)
                         .addComponent(typeLabel)
                         .addComponent(moneyImportLabel)
                         .addComponent(moneyExportLabel)
                         .addComponent(noteLabel)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(itemMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(itemMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                     .addComponent(nameInput)
-                    .addGroup(itemMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(itemCodeInput, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
-                        .addComponent(typeItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(providerComp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(moneyImportInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(moneyExportInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(noteInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(itemMenuLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                        .addComponent(itemCodeInput, GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                        .addComponent(typeItem, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(providerComp, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(moneyImportInput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(moneyExportInput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(noteInput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addGroup(itemMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
-                    .addComponent(editItemBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addItemBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(deleteItemBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(itemTableContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(itemMenuLayout.createParallelGroup(GroupLayout.Alignment.BASELINE, false)
+                    .addComponent(editItemBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addItemBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deleteItemBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(itemTableContainer, GroupLayout.PREFERRED_SIZE, 408, GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        itemListStorage.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        itemListStorage.setModel(new DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         itemListLabel.setText("Tên sản phẩm");
 
-        codeListStorage.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        codeListStorage.setModel(new DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         quantityInputStorage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -445,7 +387,7 @@ public class ManageStorage extends javax.swing.JFrame {
 
         quantityLabel.setText("Số lượng");
 
-        providerList.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        providerList.setModel(new DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         providerStorageLabel.setText("Nhà cung cấp");
 
@@ -460,7 +402,7 @@ public class ManageStorage extends javax.swing.JFrame {
 
         deleteItemStorageBtn.setText("Xoá");
 
-        importTable.setModel(new javax.swing.table.DefaultTableModel(
+        importTable.setModel(new DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -473,37 +415,37 @@ public class ManageStorage extends javax.swing.JFrame {
         ));
         importContainer.setViewportView(importTable);
 
-        javax.swing.GroupLayout storageMenuLayout = new javax.swing.GroupLayout(storageMenu);
+        GroupLayout storageMenuLayout = new GroupLayout(storageMenu);
         storageMenu.setLayout(storageMenuLayout);
         storageMenuLayout.setHorizontalGroup(
-            storageMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            storageMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(storageMenuLayout.createSequentialGroup()
-                .addGroup(storageMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(storageMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addGroup(storageMenuLayout.createSequentialGroup()
-                        .addGroup(storageMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, storageMenuLayout.createSequentialGroup()
+                        .addGroup(storageMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                            .addGroup(GroupLayout.Alignment.TRAILING, storageMenuLayout.createSequentialGroup()
                                 .addGap(94, 94, 94)
-                                .addComponent(itemListLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(codeListLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(itemListLabel, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(codeListLabel, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
                                 .addGap(125, 125, 125)
-                                .addComponent(quantityLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(quantityLabel, GroupLayout.PREFERRED_SIZE, 77, GroupLayout.PREFERRED_SIZE)
                                 .addGap(34, 34, 34))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, storageMenuLayout.createSequentialGroup()
+                            .addGroup(GroupLayout.Alignment.TRAILING, storageMenuLayout.createSequentialGroup()
                                 .addGap(86, 86, 86)
-                                .addComponent(itemListStorage, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(itemListStorage, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
                                 .addGap(30, 30, 30)
-                                .addComponent(codeListStorage, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(codeListStorage, GroupLayout.PREFERRED_SIZE, 180, GroupLayout.PREFERRED_SIZE)
                                 .addGap(34, 34, 34)
-                                .addComponent(quantityInputStorage, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(quantityInputStorage, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)
                                 .addGap(2, 2, 2)))
-                        .addGroup(storageMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(storageMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                             .addGroup(storageMenuLayout.createSequentialGroup()
                                 .addGap(37, 37, 37)
                                 .addComponent(providerStorageLabel))
                             .addGroup(storageMenuLayout.createSequentialGroup()
                                 .addGap(24, 24, 24)
-                                .addComponent(providerList, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(providerList, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE))))
                     .addGroup(storageMenuLayout.createSequentialGroup()
                         .addGap(313, 313, 313)
                         .addComponent(storeBtn)
@@ -515,29 +457,29 @@ public class ManageStorage extends javax.swing.JFrame {
             .addComponent(importContainer)
         );
         storageMenuLayout.setVerticalGroup(
-            storageMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, storageMenuLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(storageMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, storageMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+            storageMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(GroupLayout.Alignment.TRAILING, storageMenuLayout.createSequentialGroup()
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(storageMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGroup(GroupLayout.Alignment.TRAILING, storageMenuLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                         .addComponent(itemListLabel)
                         .addComponent(codeListLabel))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, storageMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addGroup(GroupLayout.Alignment.TRAILING, storageMenuLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                         .addComponent(quantityLabel)
                         .addComponent(providerStorageLabel)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(storageMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(itemListStorage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(codeListStorage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(quantityInputStorage, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(providerList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(storageMenuLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(itemListStorage, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(codeListStorage, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(quantityInputStorage, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(providerList, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30)
-                .addGroup(storageMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(storeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(editStorageBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(deleteItemStorageBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(importContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(storageMenuLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(storeBtn, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editStorageBtn, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deleteItemStorageBtn, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(importContainer, GroupLayout.PREFERRED_SIZE, 407, GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22))
         );
 
@@ -555,7 +497,7 @@ public class ManageStorage extends javax.swing.JFrame {
 
         deleteExportBtn.setText("Xoá");
 
-        exportTable.setModel(new javax.swing.table.DefaultTableModel(
+        exportTable.setModel(new DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null}
             },
@@ -564,7 +506,7 @@ public class ManageStorage extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                Integer.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false, false, false
@@ -591,20 +533,20 @@ public class ManageStorage extends javax.swing.JFrame {
             exportTable.getColumnModel().getColumn(8).setPreferredWidth(80);
         }
 
-        nameItemExportCom.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        nameItemExportCom.setModel(new DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        codeExportCom.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        codeExportCom.setModel(new DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        customerExportCom.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        customerExportCom.setModel(new DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        javax.swing.GroupLayout exportMenuLayout = new javax.swing.GroupLayout(exportMenu);
+        GroupLayout exportMenuLayout = new GroupLayout(exportMenu);
         exportMenu.setLayout(exportMenuLayout);
         exportMenuLayout.setHorizontalGroup(
-            exportMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            exportMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(exportMenuLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(exportMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, exportMenuLayout.createSequentialGroup()
+                .addGroup(exportMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGroup(GroupLayout.Alignment.TRAILING, exportMenuLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(addExportBtn)
                         .addGap(18, 18, 18)
@@ -612,57 +554,57 @@ public class ManageStorage extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(deleteExportBtn)
                         .addGap(402, 402, 402))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, exportMenuLayout.createSequentialGroup()
+                    .addGroup(GroupLayout.Alignment.TRAILING, exportMenuLayout.createSequentialGroup()
                         .addComponent(exportTableContainer)
                         .addContainerGap())))
             .addGroup(exportMenuLayout.createSequentialGroup()
                 .addContainerGap(140, Short.MAX_VALUE)
-                .addGroup(exportMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(nameItemExportCom, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(exportMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(nameItemExportCom, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
                     .addComponent(itemLabel1))
                 .addGap(48, 48, 48)
-                .addGroup(exportMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(codeLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(codeExportCom, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(exportMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(codeLabel1, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(codeExportCom, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE))
                 .addGap(42, 42, 42)
-                .addGroup(exportMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(exportMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addComponent(typeLabel1)
-                    .addComponent(quantityExportInput, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(quantityExportInput, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE))
                 .addGap(38, 38, 38)
-                .addGroup(exportMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(exportMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addComponent(providerLabel1)
-                    .addComponent(customerExportCom, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(customerExportCom, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE))
                 .addGap(156, 156, 156))
         );
         exportMenuLayout.setVerticalGroup(
-            exportMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            exportMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(exportMenuLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(exportMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(exportMenuLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
                     .addGroup(exportMenuLayout.createSequentialGroup()
-                        .addGroup(exportMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(exportMenuLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                             .addComponent(codeLabel1)
                             .addComponent(itemLabel1))
                         .addGap(18, 18, 18)
-                        .addGroup(exportMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(codeExportCom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(nameItemExportCom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(exportMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(exportMenuLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(codeExportCom, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                            .addComponent(nameItemExportCom, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(exportMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addGroup(exportMenuLayout.createSequentialGroup()
-                            .addComponent(providerLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(providerLabel1, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
                             .addGap(18, 18, 18)
-                            .addComponent(customerExportCom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(customerExportCom, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                         .addGroup(exportMenuLayout.createSequentialGroup()
                             .addComponent(typeLabel1)
                             .addGap(18, 18, 18)
-                            .addComponent(quantityExportInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(quantityExportInput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
                 .addGap(15, 15, 15)
-                .addGroup(exportMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
-                    .addComponent(editExportBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addExportBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(deleteExportBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
-                .addComponent(exportTableContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(exportMenuLayout.createParallelGroup(GroupLayout.Alignment.BASELINE, false)
+                    .addComponent(editExportBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addExportBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deleteExportBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addComponent(exportTableContainer, GroupLayout.PREFERRED_SIZE, 408, GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -680,123 +622,16 @@ public class ManageStorage extends javax.swing.JFrame {
 
         deleteCustomerBtn.setText("Xoá");
 
-        renderCustomerTable();
-        customerTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-            public void valueChanged(ListSelectionEvent event) {
-               try{
-                   nameCustomerInput.setText(customerTable.getValueAt(customerTable.getSelectedRow(), 1).toString());
-                   addressCustomerInput.setText(customerTable.getValueAt(customerTable.getSelectedRow(), 2).toString());
-                   phoneCustomertInput.setText(customerTable.getValueAt(customerTable.getSelectedRow(), 3).toString());
-                   noteCustomerInput.setText(customerTable.getValueAt(customerTable.getSelectedRow(), 6).toString());
-               } catch (Exception e){
-                   nameCustomerInput.setText("");
-                   addressCustomerInput.setText("");
-                   phoneCustomertInput.setText("");
-                   noteCustomerInput.setText("");
-               }
+        customerTable.setModel(new DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "STT", "Tên", "Địa chỉ", "Số điện thoại", "Ngày tạo", "Tổng tiền", "Ghi chú"
             }
-        });
-
-        customerTableContainer.setViewportView(customerTable);
-        if (customerTable.getColumnModel().getColumnCount() > 0) {
-            customerTable.getColumnModel().getColumn(0).setPreferredWidth(2);
-            customerTable.getColumnModel().getColumn(1).setPreferredWidth(100);
-            customerTable.getColumnModel().getColumn(2).setPreferredWidth(200);
-            customerTable.getColumnModel().getColumn(3).setPreferredWidth(50);
-            customerTable.getColumnModel().getColumn(4).setPreferredWidth(50);
-            customerTable.getColumnModel().getColumn(5).setPreferredWidth(30);
-            customerTable.getColumnModel().getColumn(6).setPreferredWidth(50);
-        }
-
-        javax.swing.GroupLayout customerMenuLayout = new javax.swing.GroupLayout(customerMenu);
-        customerMenu.setLayout(customerMenuLayout);
-        customerMenuLayout.setHorizontalGroup(
-            customerMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(customerMenuLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(customerMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, customerMenuLayout.createSequentialGroup()
-                        .addComponent(customerTableContainer)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, customerMenuLayout.createSequentialGroup()
-                        .addGroup(customerMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(customerMenuLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(addCustomerBtn)
-                                .addGap(18, 18, 18)
-                                .addComponent(editCustomerBtn))
-                            .addGroup(customerMenuLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
-                                .addGroup(customerMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(nameCustomerInput, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(itemLabel2))
-                                .addGap(45, 45, 45)
-                                .addGroup(customerMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(codeLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(addressCustomerInput, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(customerMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(customerMenuLayout.createSequentialGroup()
-                                .addComponent(deleteCustomerBtn)
-                                .addGap(402, 402, 402))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, customerMenuLayout.createSequentialGroup()
-                                .addGroup(customerMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(typeLabel2)
-                                    .addComponent(phoneCustomertInput, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(38, 38, 38)
-                                .addGroup(customerMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(noteCustomerInput, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(providerLabel2))
-                                .addGap(78, 78, 78))))))
-        );
-        customerMenuLayout.setVerticalGroup(
-            customerMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(customerMenuLayout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addGroup(customerMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(codeLabel2)
-                    .addComponent(typeLabel2)
-                    .addComponent(itemLabel2)
-                    .addComponent(providerLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(7, 7, 7)
-                .addGroup(customerMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addressCustomerInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(phoneCustomertInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(noteCustomerInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nameCustomerInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
-                .addGroup(customerMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
-                    .addComponent(editCustomerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addCustomerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(deleteCustomerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
-                .addComponent(customerTableContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        itemLabel4.setText("Tên");
-
-        codeLabel4.setText("Địa chỉ");
-
-        typeLabel4.setText("Số điện thoại");
-
-        providerLabel4.setText("Ghi chú");
-
-        addProviderBtn.setText("Thêm");
-
-        editProviderBtn.setText("Sửa");
-
-        deleteProviderBtn.setText("Xoá");
-
-
-        providerTable.setModel(new javax.swing.table.DefaultTableModel(
-                providerService.generateProviderObject(),
-                new String [] {
-                    "STT", "Tên", "Địa chỉ", "Số điện thoại", "Ngày tạo", "Tổng tiền", "Ghi chú"
-                }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                Integer.class, String.class, String.class, String.class, String.class, String.class, String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false
@@ -810,6 +645,137 @@ public class ManageStorage extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        customerTableContainer.setViewportView(customerTable);
+        if (customerTable.getColumnModel().getColumnCount() > 0) {
+            customerTable.getColumnModel().getColumn(0).setPreferredWidth(2);
+            customerTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+            customerTable.getColumnModel().getColumn(2).setPreferredWidth(200);
+            customerTable.getColumnModel().getColumn(3).setPreferredWidth(50);
+            customerTable.getColumnModel().getColumn(4).setPreferredWidth(50);
+            customerTable.getColumnModel().getColumn(5).setPreferredWidth(30);
+            customerTable.getColumnModel().getColumn(6).setPreferredWidth(50);
+        }
+
+        GroupLayout customerMenuLayout = new GroupLayout(customerMenu);
+        customerMenu.setLayout(customerMenuLayout);
+        customerMenuLayout.setHorizontalGroup(
+            customerMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(customerMenuLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(customerMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGroup(GroupLayout.Alignment.TRAILING, customerMenuLayout.createSequentialGroup()
+                        .addComponent(customerTableContainer)
+                        .addContainerGap())
+                    .addGroup(GroupLayout.Alignment.TRAILING, customerMenuLayout.createSequentialGroup()
+                        .addGroup(customerMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                            .addGroup(customerMenuLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(addCustomerBtn)
+                                .addGap(18, 18, 18)
+                                .addComponent(editCustomerBtn))
+                            .addGroup(customerMenuLayout.createSequentialGroup()
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
+                                .addGroup(customerMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                    .addComponent(nameCustomerInput, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(itemLabel2))
+                                .addGap(45, 45, 45)
+                                .addGroup(customerMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                    .addComponent(codeLabel2, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(addressCustomerInput, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(customerMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                            .addGroup(customerMenuLayout.createSequentialGroup()
+                                .addComponent(deleteCustomerBtn)
+                                .addGap(402, 402, 402))
+                            .addGroup(GroupLayout.Alignment.TRAILING, customerMenuLayout.createSequentialGroup()
+                                .addGroup(customerMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                    .addComponent(typeLabel2)
+                                    .addComponent(phoneCustomertInput, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE))
+                                .addGap(38, 38, 38)
+                                .addGroup(customerMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                    .addComponent(noteCustomerInput, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(providerLabel2))
+                                .addGap(78, 78, 78))))))
+        );
+        customerMenuLayout.setVerticalGroup(
+            customerMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(customerMenuLayout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addGroup(customerMenuLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(codeLabel2)
+                    .addComponent(typeLabel2)
+                    .addComponent(itemLabel2)
+                    .addComponent(providerLabel2, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE))
+                .addGap(7, 7, 7)
+                .addGroup(customerMenuLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(addressCustomerInput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(phoneCustomertInput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(noteCustomerInput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nameCustomerInput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addGroup(customerMenuLayout.createParallelGroup(GroupLayout.Alignment.BASELINE, false)
+                    .addComponent(editCustomerBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addCustomerBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deleteCustomerBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addComponent(customerTableContainer, GroupLayout.PREFERRED_SIZE, 408, GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        itemLabel4.setText("Tên");
+
+        codeLabel4.setText("Địa chỉ");
+
+        typeLabel4.setText("Số điện thoại");
+
+        providerLabel4.setText("Ghi chú");
+
+        addProviderBtn.setText("Thêm");
+        addProviderBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addProviderBtnActionPerformed(-1, evt);
+            }
+        });
+
+        editProviderBtn.setText("Sửa");
+        editProviderBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addProviderBtnActionPerformed(selectedProvider, evt);
+            }
+        });
+
+        deleteProviderBtn.setText("Xoá");
+        deleteProviderBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                providers.remove(selectedProvider - 1);
+                providerService.save(providers);
+                providerObj = providerService.generateProviderObject();
+                renderProviderTable();
+            }
+        });
+
+        renderProviderTable();
+
+        providerTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+            public void valueChanged(ListSelectionEvent event) {
+                try {
+                    selectedProvider = Integer.parseInt(providerTable.getValueAt(providerTable.getSelectedRow(), 0).toString());
+                    nameProviderInput.setText(providerTable.getValueAt(providerTable.getSelectedRow(), 1).toString());
+                    addressProviderInput.setText(providerTable.getValueAt(providerTable.getSelectedRow(), 2).toString());
+                    phoneProviderInput.setText(providerTable.getValueAt(providerTable.getSelectedRow(), 3).toString());
+                    noteProviderInput.setText(providerTable.getValueAt(providerTable.getSelectedRow(), 6).toString());
+                } catch (Exception e){
+                    selectedProvider = -1;
+                    nameProviderInput.setText("");
+                    addressProviderInput.setText("");
+                    phoneProviderInput.setText("");
+                    noteProviderInput.setText("");
+                }
+
+            }
+        });
+
+
         providerTableContainer.setViewportView(providerTable);
         if (providerTable.getColumnModel().getColumnCount() > 0) {
             providerTable.getColumnModel().getColumn(0).setPreferredWidth(2);
@@ -821,69 +787,69 @@ public class ManageStorage extends javax.swing.JFrame {
             providerTable.getColumnModel().getColumn(6).setPreferredWidth(50);
         }
 
-        javax.swing.GroupLayout providerMenuLayout = new javax.swing.GroupLayout(providerMenu);
+        GroupLayout providerMenuLayout = new GroupLayout(providerMenu);
         providerMenu.setLayout(providerMenuLayout);
         providerMenuLayout.setHorizontalGroup(
-            providerMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            providerMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(providerMenuLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(providerMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, providerMenuLayout.createSequentialGroup()
+                .addGroup(providerMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGroup(GroupLayout.Alignment.TRAILING, providerMenuLayout.createSequentialGroup()
                         .addComponent(providerTableContainer)
                         .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, providerMenuLayout.createSequentialGroup()
-                        .addGroup(providerMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(GroupLayout.Alignment.TRAILING, providerMenuLayout.createSequentialGroup()
+                        .addGroup(providerMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                             .addGroup(providerMenuLayout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(addProviderBtn)
                                 .addGap(18, 18, 18)
                                 .addComponent(editProviderBtn))
                             .addGroup(providerMenuLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
-                                .addGroup(providerMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(nameProviderInput, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
+                                .addGroup(providerMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                    .addComponent(nameProviderInput, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
                                     .addComponent(itemLabel4))
                                 .addGap(45, 45, 45)
-                                .addGroup(providerMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(codeLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(addressProviderInput, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(providerMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(providerMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                    .addComponent(codeLabel4, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(addressProviderInput, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(providerMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                             .addGroup(providerMenuLayout.createSequentialGroup()
                                 .addComponent(deleteProviderBtn)
                                 .addGap(402, 402, 402))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, providerMenuLayout.createSequentialGroup()
-                                .addGroup(providerMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(GroupLayout.Alignment.TRAILING, providerMenuLayout.createSequentialGroup()
+                                .addGroup(providerMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                     .addComponent(typeLabel4)
-                                    .addComponent(phoneProviderInput, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(phoneProviderInput, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE))
                                 .addGap(38, 38, 38)
-                                .addGroup(providerMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(noteProviderInput, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(providerMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                    .addComponent(noteProviderInput, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
                                     .addComponent(providerLabel4))
                                 .addGap(78, 78, 78))))))
         );
         providerMenuLayout.setVerticalGroup(
-            providerMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            providerMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(providerMenuLayout.createSequentialGroup()
                 .addGap(12, 12, 12)
-                .addGroup(providerMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(providerMenuLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(codeLabel4)
                     .addComponent(typeLabel4)
                     .addComponent(itemLabel4)
-                    .addComponent(providerLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(providerLabel4, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE))
                 .addGap(7, 7, 7)
-                .addGroup(providerMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addressProviderInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(phoneProviderInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(noteProviderInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nameProviderInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
-                .addGroup(providerMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
-                    .addComponent(editProviderBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addProviderBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(deleteProviderBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
-                .addComponent(providerTableContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(providerMenuLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(addressProviderInput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(phoneProviderInput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(noteProviderInput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nameProviderInput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addGroup(providerMenuLayout.createParallelGroup(GroupLayout.Alignment.BASELINE, false)
+                    .addComponent(editProviderBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addProviderBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deleteProviderBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addComponent(providerTableContainer, GroupLayout.PREFERRED_SIZE, 408, GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -891,7 +857,7 @@ public class ManageStorage extends javax.swing.JFrame {
 
         statisticImportBtn.setText("Thống kê nhập hàng");
 
-        statisticTable.setModel(new javax.swing.table.DefaultTableModel(
+        statisticTable.setModel(new DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null}
             },
@@ -900,7 +866,7 @@ public class ManageStorage extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
+                Integer.class, String.class, String.class, Integer.class, String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false
@@ -923,17 +889,17 @@ public class ManageStorage extends javax.swing.JFrame {
             statisticTable.getColumnModel().getColumn(4).setPreferredWidth(30);
         }
 
-        javax.swing.GroupLayout statisticMenuLayout = new javax.swing.GroupLayout(statisticMenu);
+        GroupLayout statisticMenuLayout = new GroupLayout(statisticMenu);
         statisticMenu.setLayout(statisticMenuLayout);
         statisticMenuLayout.setHorizontalGroup(
-            statisticMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            statisticMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(statisticMenuLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(statisticMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, statisticMenuLayout.createSequentialGroup()
-                        .addComponent(statisticTableContainer, javax.swing.GroupLayout.DEFAULT_SIZE, 984, Short.MAX_VALUE)
+                .addGroup(statisticMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGroup(GroupLayout.Alignment.TRAILING, statisticMenuLayout.createSequentialGroup()
+                        .addComponent(statisticTableContainer, GroupLayout.DEFAULT_SIZE, 984, Short.MAX_VALUE)
                         .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, statisticMenuLayout.createSequentialGroup()
+                    .addGroup(GroupLayout.Alignment.TRAILING, statisticMenuLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(statisticExportBtn)
                         .addGap(135, 135, 135)
@@ -941,110 +907,153 @@ public class ManageStorage extends javax.swing.JFrame {
                         .addGap(337, 337, 337))))
         );
         statisticMenuLayout.setVerticalGroup(
-            statisticMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            statisticMenuLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(statisticMenuLayout.createSequentialGroup()
                 .addGap(35, 35, 35)
-                .addGroup(statisticMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(statisticImportBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(statisticExportBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-                .addComponent(statisticTableContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(statisticMenuLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(statisticImportBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(statisticExportBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                .addComponent(statisticTableContainer, GroupLayout.PREFERRED_SIZE, 408, GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(itemMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(itemMenu, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(itemBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(importBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(exportBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(customerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(providerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(statisticBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(itemBtn, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(importBtn, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(exportBtn, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(customerBtn, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(providerBtn, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(statisticBtn, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 14, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(storageMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(storageMenu, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addContainerGap()))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(exportMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(exportMenu, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addContainerGap()))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(customerMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(customerMenu, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addContainerGap()))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(providerMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(providerMenu, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addContainerGap()))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(statisticMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(statisticMenu, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addContainerGap()))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(itemBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(importBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(exportBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(customerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(providerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(statisticBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                        .addComponent(itemBtn, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(importBtn, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(exportBtn, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                        .addComponent(customerBtn, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(providerBtn, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(statisticBtn, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addComponent(itemMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(itemMenu, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addContainerGap(69, Short.MAX_VALUE)
-                    .addComponent(storageMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 547, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(storageMenu, GroupLayout.PREFERRED_SIZE, 547, GroupLayout.PREFERRED_SIZE)
                     .addContainerGap()))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(69, 69, 69)
-                    .addComponent(exportMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(exportMenu, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGap(21, 21, 21)))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(69, 69, 69)
-                    .addComponent(customerMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(customerMenu, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGap(21, 21, 21)))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(79, 79, 79)
-                    .addComponent(providerMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(providerMenu, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addContainerGap()))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(79, 79, 79)
-                    .addComponent(statisticMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(statisticMenu, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addContainerGap()))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void addProviderBtnActionPerformed(int selectedProvider, java.awt.event.ActionEvent evt) {
+        PersonEntity personEntity = new PersonEntity();
+        personEntity.name = nameProviderInput.getText();
+        personEntity.address = addressProviderInput.getText();
+        personEntity.phone = phoneProviderInput.getText();
+        personEntity.note = noteProviderInput.getText();
+        personEntity.createdAt = new SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().getTime());
+        personEntity.total = 0;
+
+        if(personEntity.name == null){
+            JOptionPane.showMessageDialog(null,"Bạn không được để trống tên nhà cung cấp");
+        } else if (personEntity.address == null){
+            JOptionPane.showMessageDialog(null, "Bạn không được để trống địa chỉ nhà cung cấp");
+        } else if (personEntity.phone == null){
+            JOptionPane.showMessageDialog(null, "Bạn không được để trống số điện thoại nhà cung cấp");
+        } else {
+            Object[] o = new Object[7];
+            o[0] = this.providers.size();
+            o[1] = personEntity.name;
+            o[2] = personEntity.address;
+            o[3] = personEntity.phone;
+            o[4] = personEntity.createdAt;
+            o[5] = personEntity.total;
+            o[6] = personEntity.note;
+
+            if (selectedProvider == -1){
+                this.providers.add(personEntity);
+                ((DefaultTableModel) providerTable.getModel()).addRow(o);
+            } else {
+                this.providers.set(selectedProvider-1, personEntity);
+                providerTable.setValueAt(selectedProvider , selectedProvider - 1, 0);
+                providerTable.setValueAt(personEntity.name, selectedProvider - 1, 1);
+                providerTable.setValueAt(personEntity.address, selectedProvider - 1, 2);
+                providerTable.setValueAt(personEntity.phone, selectedProvider - 1, 3);
+                providerTable.setValueAt(personEntity.createdAt, selectedProvider - 1, 4);
+                providerTable.setValueAt(personEntity.total, selectedProvider - 1, 5);
+                providerTable.setValueAt(personEntity.note, selectedProvider - 1, 6);
+            }
+
+            providerService.save(this.providers);
+        }
+    }
 
     private void importBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importBtnActionPerformed
         changeView(this.storageMenu);
@@ -1078,35 +1087,6 @@ public class ManageStorage extends javax.swing.JFrame {
         changeView(this.statisticMenu);
     }//GEN-LAST:event_statisticBtnMouseClicked
 
-    private void addCustomerBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addCustomerBtnMouseClicked
-        PersonEntity customer = new PersonEntity();
-        customer.name = nameCustomerInput.getText();
-        customer.address = addressCustomerInput.getText();
-        customer.phone = phoneCustomertInput.getText();
-        customer.note = noteCustomerInput.getText();
-        if(customer.name == null){
-            JOptionPane.showMessageDialog(null, "Bạn không được để trống tên khách hàng");
-        } else if (customer.address == null){
-            JOptionPane.showMessageDialog(null, "Bạn không được để trống địa chỉ khách hàng");
-        } else if (customer.phone == null){
-            JOptionPane.showMessageDialog(null, "Bạn không được để trống số điện thoại khách hàng");
-        } else {
-            customer.createdAt = new SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().getTime());
-            customer.total = 0;
-            customers.add(customer);
-            Object[] o = new Object[7];
-            o[0] = customers.size();
-            o[1] = customer.name;
-            o[2] = customer.address;
-            o[3] = customer.phone;
-            o[4] = customer.createdAt;
-            o[5] = customer.total;
-            o[6] = customer.note;
-            DefaultTableModel model = (DefaultTableModel) customerTable.getModel();
-            model.addRow(o);
-        }
-    }//GEN-LAST:event_addCustomerBtnMouseClicked
-
     /**
      * @param args the command line arguments
      */
@@ -1117,9 +1097,9 @@ public class ManageStorage extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
@@ -1129,7 +1109,7 @@ public class ManageStorage extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(ManageStorage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(ManageStorage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(ManageStorage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
@@ -1143,96 +1123,96 @@ public class ManageStorage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addCustomerBtn;
-    private javax.swing.JButton addExportBtn;
-    private javax.swing.JButton addItemBtn;
-    private javax.swing.JButton addProviderBtn;
-    private javax.swing.JTextField addressCustomerInput;
-    private javax.swing.JTextField addressProviderInput;
-    private javax.swing.JComboBox<String> codeExportCom;
-    private javax.swing.JLabel codeLabel;
-    private javax.swing.JLabel codeLabel1;
-    private javax.swing.JLabel codeLabel2;
-    private javax.swing.JLabel codeLabel4;
-    private javax.swing.JLabel codeListLabel;
-    private javax.swing.JComboBox<String> codeListStorage;
-    private javax.swing.JButton customerBtn;
-    private javax.swing.JComboBox<String> customerExportCom;
-    private javax.swing.JPanel customerMenu;
-    private javax.swing.JTable customerTable;
-    private javax.swing.JScrollPane customerTableContainer;
-    private javax.swing.JButton deleteCustomerBtn;
-    private javax.swing.JButton deleteExportBtn;
-    private javax.swing.JButton deleteItemBtn;
-    private javax.swing.JButton deleteItemStorageBtn;
-    private javax.swing.JButton deleteProviderBtn;
-    private javax.swing.JButton editCustomerBtn;
-    private javax.swing.JButton editExportBtn;
-    private javax.swing.JButton editItemBtn;
-    private javax.swing.JButton editProviderBtn;
-    private javax.swing.JButton editStorageBtn;
-    private javax.swing.JButton exportBtn;
-    private javax.swing.JPanel exportMenu;
-    private javax.swing.JTable exportTable;
-    private javax.swing.JScrollPane exportTableContainer;
-    private javax.swing.JButton importBtn;
-    private javax.swing.JScrollPane importContainer;
-    private javax.swing.JTable importTable;
-    private javax.swing.JButton itemBtn;
-    private javax.swing.JTextField itemCodeInput;
-    private javax.swing.JLabel itemLabel;
-    private javax.swing.JLabel itemLabel1;
-    private javax.swing.JLabel itemLabel2;
-    private javax.swing.JLabel itemLabel4;
-    private javax.swing.JLabel itemListLabel;
-    private javax.swing.JComboBox<String> itemListStorage;
-    private javax.swing.JPanel itemMenu;
-    private javax.swing.JTable itemTable;
-    private javax.swing.JScrollPane itemTableContainer;
-    private javax.swing.JTextField moneyExportInput;
-    private javax.swing.JLabel moneyExportLabel;
-    private javax.swing.JTextField moneyImportInput;
-    private javax.swing.JLabel moneyImportLabel;
-    private javax.swing.JTextField nameCustomerInput;
-    private javax.swing.JTextField nameInput;
-    private javax.swing.JComboBox<String> nameItemExportCom;
-    private javax.swing.JTextField nameProviderInput;
-    private javax.swing.JTextField noteCustomerInput;
-    private javax.swing.JTextField noteInput;
-    private javax.swing.JLabel noteLabel;
-    private javax.swing.JTextField noteProviderInput;
-    private javax.swing.JTextField phoneCustomertInput;
-    private javax.swing.JTextField phoneProviderInput;
-    private javax.swing.JButton providerBtn;
-    private javax.swing.JComboBox<String> providerComp;
-    private javax.swing.JLabel providerLabel;
-    private javax.swing.JLabel providerLabel1;
-    private javax.swing.JLabel providerLabel2;
-    private javax.swing.JLabel providerLabel4;
-    private javax.swing.JComboBox<String> providerList;
-    private javax.swing.JPanel providerMenu;
-    private javax.swing.JLabel providerStorageLabel;
-    private javax.swing.JTable providerTable;
-    private javax.swing.JScrollPane providerTableContainer;
-    private javax.swing.JTextField quantityExportInput;
-    private javax.swing.JTextField quantityInputStorage;
-    private javax.swing.JLabel quantityLabel;
-    private javax.swing.JButton statisticBtn;
-    private javax.swing.JButton statisticExportBtn;
-    private javax.swing.JButton statisticImportBtn;
-    private javax.swing.JPanel statisticMenu;
-    private javax.swing.JTable statisticTable;
-    private javax.swing.JScrollPane statisticTableContainer;
-    private javax.swing.JPanel storageMenu;
-    private javax.swing.JButton storeBtn;
-    private javax.swing.JComboBox<String> typeItem;
-    private javax.swing.JLabel typeLabel;
-    private javax.swing.JLabel typeLabel1;
-    private javax.swing.JLabel typeLabel2;
-    private javax.swing.JLabel typeLabel4;
+    private JButton addCustomerBtn;
+    private JButton addExportBtn;
+    private JButton addItemBtn;
+    private JButton addProviderBtn;
+    private JTextField addressCustomerInput;
+    private JTextField addressProviderInput;
+    private JComboBox<String> codeExportCom;
+    private JLabel codeLabel;
+    private JLabel codeLabel1;
+    private JLabel codeLabel2;
+    private JLabel codeLabel4;
+    private JLabel codeListLabel;
+    private JComboBox<String> codeListStorage;
+    private JButton customerBtn;
+    private JComboBox<String> customerExportCom;
+    private JPanel customerMenu;
+    private JTable customerTable;
+    private JScrollPane customerTableContainer;
+    private JButton deleteCustomerBtn;
+    private JButton deleteExportBtn;
+    private JButton deleteItemBtn;
+    private JButton deleteItemStorageBtn;
+    private JButton deleteProviderBtn;
+    private JButton editCustomerBtn;
+    private JButton editExportBtn;
+    private JButton editItemBtn;
+    private JButton editProviderBtn;
+    private JButton editStorageBtn;
+    private JButton exportBtn;
+    private JPanel exportMenu;
+    private JTable exportTable;
+    private JScrollPane exportTableContainer;
+    private JButton importBtn;
+    private JScrollPane importContainer;
+    private JTable importTable;
+    private JButton itemBtn;
+    private JTextField itemCodeInput;
+    private JLabel itemLabel;
+    private JLabel itemLabel1;
+    private JLabel itemLabel2;
+    private JLabel itemLabel4;
+    private JLabel itemListLabel;
+    private JComboBox<String> itemListStorage;
+    private JPanel itemMenu;
+    private JTable itemTable;
+    private JScrollPane itemTableContainer;
+    private JTextField moneyExportInput;
+    private JLabel moneyExportLabel;
+    private JTextField moneyImportInput;
+    private JLabel moneyImportLabel;
+    private JTextField nameCustomerInput;
+    private JTextField nameInput;
+    private JComboBox<String> nameItemExportCom;
+    private JTextField nameProviderInput;
+    private JTextField noteCustomerInput;
+    private JTextField noteInput;
+    private JLabel noteLabel;
+    private JTextField noteProviderInput;
+    private JTextField phoneCustomertInput;
+    private JTextField phoneProviderInput;
+    private JButton providerBtn;
+    private JComboBox<String> providerComp;
+    private JLabel providerLabel;
+    private JLabel providerLabel1;
+    private JLabel providerLabel2;
+    private JLabel providerLabel4;
+    private JComboBox<String> providerList;
+    private JPanel providerMenu;
+    private JLabel providerStorageLabel;
+    private JTable providerTable;
+    private JScrollPane providerTableContainer;
+    private JTextField quantityExportInput;
+    private JTextField quantityInputStorage;
+    private JLabel quantityLabel;
+    private JButton statisticBtn;
+    private JButton statisticExportBtn;
+    private JButton statisticImportBtn;
+    private JPanel statisticMenu;
+    private JTable statisticTable;
+    private JScrollPane statisticTableContainer;
+    private JPanel storageMenu;
+    private JButton storeBtn;
+    private JComboBox<String> typeItem;
+    private JLabel typeLabel;
+    private JLabel typeLabel1;
+    private JLabel typeLabel2;
+    private JLabel typeLabel4;
     private List<PersonEntity> providers;
     private PersonService providerService;
-    private List<PersonEntity> customers;
-    private PersonService customerService;
+    private int selectedProvider;
+    private Object[][] providerObj;
     // End of variables declaration//GEN-END:variables
 }
